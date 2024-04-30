@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyplume.pose.Pose &mdash; pyplume  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyplume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pd0%20Dataset.html"><strong>Pd0 Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ctd%20Dataset.html"><strong>CTD Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Pose.html"><strong>Pose</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Data%20Manager.html"><strong>Data Manager</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyplume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyplume.pose.Pose</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyplume.pose.Pose</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Sep 15 13:00:08 2023</span>
+
+<span class="sd">@author: anba</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pyproj</span>
+<span class="c1"># from pyproj import Transformer</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
+<span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="kn">import</span> <span class="n">LineCollection</span>
+<span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticker</span>
+<span class="kn">import</span> <span class="nn">cmocean</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">rich</span>
+<span class="kn">import</span> <span class="nn">dill</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="c1">#import pyplume as pp</span>
+<span class="kn">from</span> <span class="nn">..ptools</span> <span class="kn">import</span> <span class="n">ptools</span>
+<span class="kn">from</span> <span class="nn">..plotting.matplotlib_shell</span> <span class="kn">import</span> <span class="n">subplots</span><span class="p">,</span> <span class="n">dhi_colors</span>
+
+
+<div class="viewcode-block" id="Pose">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose">[docs]</a>
+<span class="k">class</span> <span class="nc">Pose</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for managing monitoring platform pose and orientation (&quot;Pose&quot;) data (e.g. ROV, Vessel, AUV, Lander, etc).</span>
+<span class="sd">    positive z is up, positive x is east, and positive y is north. </span>
+<span class="sd">    Features:</span>
+<span class="sd">    - Importing data (pose and orientation)</span>
+<span class="sd">    - Regularization/re-sampling</span>
+<span class="sd">    - Updating pose depth (z)</span>
+<span class="sd">    - QAQC when possible</span>
+<span class="sd">    - Reversing z-convention</span>
+<span class="sd">    - Scaling operations (e.g., vertical exaggeration)</span>
+<span class="sd">    - managing projections </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pose&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">z_convention</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">proj</span> <span class="o">=</span> <span class="s2">&quot;EPSG:32611&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Pose class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pose data. Default is &#39;Pose&#39;.</span>
+<span class="sd">        df : pd.DataFrame, optional</span>
+<span class="sd">            Input pandas DataFrame. Default is None.</span>
+<span class="sd">        z_convention : str, optional</span>
+<span class="sd">            Specify the z-convention of the data as &#39;normal&#39; (positive z is up) or &#39;reverse&#39; (positive z is down). Default is &#39;normal&#39;.</span>
+<span class="sd">        proj: str, optional</span>
+<span class="sd">            data projection. Use pyproj projection keys. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotting</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_method</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_tolerance</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#second</span>
+        
+        
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">proj</span>
+        
+
+
+        <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">import_from_pandas_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            
+        <span class="c1"># set z convention</span>
+        <span class="c1"># doesnt work with the funciton call on init for some reason </span>
+        <span class="k">if</span> <span class="n">z_convention</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span><span class="s1">&#39;reverse&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z_convention</span> <span class="o">=</span> <span class="n">z_convention</span> <span class="c1"># positive z is up, negative z is down</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid z_convention. Choose from </span><span class="si">{</span><span class="n">z_convention</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>    
+
+        
+<div class="viewcode-block" id="Pose.set_resample_method">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.set_resample_method">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_resample_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">method</span><span class="p">):</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_method</span> <span class="o">=</span> <span class="n">method</span></div>
+
+        
+<div class="viewcode-block" id="Pose.set_resample_tolerance">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.set_resample_tolerance">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_resample_tolerance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tolerance</span><span class="p">):</span>
+        <span class="c1"># if method is nearest this is the tolerance for matchingh</span>
+        <span class="c1"># if ffill of bfill its the consecutive numberto propageate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_tolerance</span> <span class="o">=</span> <span class="n">tolerance</span></div>
+
+        
+<div class="viewcode-block" id="Pose.to_csv">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.to_csv">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write pose data to a CSV file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fname : str, optional</span>
+<span class="sd">            The file name to save the CSV. If not provided, the default filename</span>
+<span class="sd">            will be based on the &#39;name&#39; attribute of the pose instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fname</span><span class="p">:</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">_pose_export.csv&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Pose.import_from_pandas_df">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.import_from_pandas_df">[docs]</a>
+    <span class="k">def</span> <span class="nf">import_from_pandas_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Import data from a pandas DataFrame and transform column names.</span>
+
+<span class="sd">        DataFrame column names must include &#39;Easting&#39;, &#39;Northing&#39;, &#39;Depth&#39;,</span>
+<span class="sd">        &#39;Pitch&#39;, &#39;Roll&#39;, and &#39;Heading&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : pd.DataFrame</span>
+<span class="sd">            The input pandas DataFrame.</span>
+<span class="sd">        flip_z : bool, optional</span>
+<span class="sd">            Whether to flip the z-values. Default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            Transformed DataFrame with updated column names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Easting&#39;</span><span class="p">,</span> <span class="s1">&#39;Northing&#39;</span><span class="p">,</span> <span class="s1">&#39;Depth&#39;</span><span class="p">,</span> <span class="s1">&#39;Pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;Roll&#39;</span><span class="p">,</span> <span class="s1">&#39;Heading&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;roll&#39;</span><span class="p">,</span> <span class="s1">&#39;heading&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span></div>
+
+        
+        <span class="c1"># if flip_z:</span>
+        <span class="c1">#     self.pose[&#39;z&#39;] = -self.pose[&#39;z&#39;]  # Flip z direction so that down is negative</span>
+    <span class="c1">#@z_convention.setter    </span>
+<div class="viewcode-block" id="Pose.set_z_convention">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.set_z_convention">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_z_convention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z_convention</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">update_z</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        set the z-coordinate convention of the pose data.</span>
+
+<span class="sd">        This method multiplies the z-coordinates by -1 to flip the convention,</span>
+<span class="sd">        ensuring that down is negative.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        z_convention : str, optional</span>
+<span class="sd">            Specify the z-convention of the data as &#39;normal&#39; (positive z is up) or &#39;reverse&#39; (positive z is down). Default is &#39;normal&#39;.</span>
+<span class="sd">            </span>
+<span class="sd">        update_z: bool, optional</span>
+<span class="sd">            if true the z-coordinate will be multiplied by -1. Default is False. </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This method modifies the &#39;z&#39; column of the &#39;pos&#39; DataFrame in place.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">z_convention</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span><span class="s1">&#39;reverse&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z_convention</span> <span class="o">=</span> <span class="n">z_convention</span> <span class="c1"># positive z is up, negative z is down</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid z_convention. Choose from </span><span class="si">{</span><span class="n">z_convention</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            
+            <span class="c1">#raise Warning(f&#39;invalid z_convention. Choose from {z_convention}&#39;)</span>
+           
+        <span class="k">if</span> <span class="n">update_z</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Pose.get_between">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.get_between">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve pose data between two dates.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_date : datetime-like</span>
+<span class="sd">            The start date for filtering the pose data.</span>
+<span class="sd">        end_date : datetime-like</span>
+<span class="sd">            The end date for filtering the pose data.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            pose data within the specified date range.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The &#39;pose&#39; DataFrame must have a DatetimeIndex for this method to work correctly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">start_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">end_date</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span></div>
+
+    
+    
+
+            
+
+            
+            <span class="c1"># for i,etime in enumerate(et):</span>
+            <span class="c1">#     index = orient_in.index.get_indexer([etime], method=&#39;ffill&#39;)[0] # index of nearest input positon to the ensemble timestamp</span>
+            <span class="c1">#     self.orientation[0,i] = orient_in.iloc[index].pitch</span>
+            <span class="c1">#     self.orientation[1,i] = orient_in.iloc[index].roll</span>
+            <span class="c1">#     self.orientation[2,i] = orient_in.iloc[index].heading </span>
+<div class="viewcode-block" id="Pose.add_lat_lon">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.add_lat_lon">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_lat_lon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert from input easting northing to lat/lon.</span>
+<span class="sd">        </span>
+<span class="sd">        Input projection code comes from pyproj.</span>
+<span class="sd">        Lat and lon columns are added to the pose data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    
+        <span class="n">transformer</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">,</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+        <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon</span></div>
+
+
+        
+        
+        
+            
+    <span class="k">class</span> <span class="nc">__plotting</span><span class="p">:</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pose</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pose</span> <span class="o">=</span> <span class="n">pose</span>
+
+        <span class="k">def</span> <span class="nf">trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Create a trajectory plot.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            **kwargs : dict, optional</span>
+<span class="sd">                Additional keyword arguments.</span>
+
+<span class="sd">            Notes</span>
+<span class="sd">            -----</span>
+<span class="sd">            This method uses the &#39;pos&#39; DataFrame stored in the pose class.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pose</span><span class="o">.</span><span class="n">pose</span>
+
+            <span class="n">start_date</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;start_date&#39;</span><span class="p">,</span> <span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+            <span class="n">end_date</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;end_date&#39;</span><span class="p">,</span> <span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">start_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">end_date</span><span class="p">)</span>
+            <span class="n">pose</span> <span class="o">=</span> <span class="n">pose</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">nrow</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figheight</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">figwidth</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+            
+            
+            
+
+            
+            <span class="n">s</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">pose</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span><span class="n">s</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">pose</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">],</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Distance (m)&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Position&#39;</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Depth (m)&#39;</span><span class="p">)</span>
+            
+            
+            <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pose</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">],</span><span class="n">s</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="n">pose</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">],</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Depth (m)&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pose</span><span class="p">[</span><span class="s1">&#39;pitch&#39;</span><span class="p">],</span><span class="n">lw</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Pitch&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pose</span><span class="p">[</span><span class="s1">&#39;roll&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">lw</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span><span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Roll&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;degrees&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+            
+            <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;lightgray&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;lightgray&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;lightgray&#39;</span><span class="p">)</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_pose</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>  
+            
+            
+            <span class="k">return</span> <span class="n">fig</span><span class="p">,</span><span class="n">ax</span>
+            
+            
+<div class="viewcode-block" id="Pose.resample_to">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.resample_to">[docs]</a>
+    <span class="k">def</span> <span class="nf">resample_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_in</span><span class="p">,</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resample the pose data to match the input timeseries.</span>
+
+<span class="sd">        This method resamples the pose data to align with the provided input timeseries (`t_in`).</span>
+<span class="sd">        The `tolerance` parameter specifies the maximum allowable time difference in seconds for a match to be considered acceptable.</span>
+<span class="sd">        Input timesteps that could not be matched will be filled in with nan values. </span>
+<span class="sd">        It uses nearest neighbor search to find the closest matching timestamps in the input timeseries.</span>
+<span class="sd">        </span>
+<span class="sd">        Warning - all data in the pose data outside the bounds of the input </span>
+<span class="sd">        timeseries will be deleted. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            t_in (list or numpy array, pandas datatime index): A list-like object containing pandas datetimes representing the target timeseries.</span>
+<span class="sd">            </span>
+<span class="sd">            tolerance (int, optional): The maximum time difference in seconds allowed for matching. only true if method = nearest</span>
+<span class="sd">            Default is 1 second. if tolerance is None, then the nearest value </span>
+<span class="sd">            will be used, regardless of distance. this is useful for static </span>
+<span class="sd">            sensors without regular pose measurements. </span>
+
+
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">t_in</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">resample_method</span><span class="p">,</span> <span class="n">tolerance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resample_tolerance</span><span class="p">)</span></div>
+
+        
+        <span class="c1"># method = kwargs.pop(&#39;method&#39;,&#39;nearest&#39;)</span>
+        <span class="c1"># tolerance = kwargs.pop(&#39;tolerance&#39;,&#39;auto&#39;)</span>
+
+        <span class="c1"># if tolerance:</span>
+        <span class="c1">#     if tolerance == &#39;auto&#39;: # calculate the right tolerance </span>
+        <span class="c1">#         if len(t_in)&gt;1 and len(self.pose.index)&gt;1:</span>
+        <span class="c1">#             # calculate timestep for input timeseries</span>
+                   
+        <span class="c1">#             dt = np.diff(t_in).astype(float)/1e9 # time delta in seconds</span>
+                    
+        <span class="c1">#             dt = np.append(dt,dt[-1])</span>
+        <span class="c1">#             dt_99_in = np.percentile(dt,99) # mask to identify data gaps </span>
+                    
+        <span class="c1">#             # calculate timestep for existing timeseries</span>
+        <span class="c1">#             t = self.pose.index.to_numpy()</span>
+        <span class="c1">#             dt = np.diff(t,prepend = t[0],).astype(float)/1e9 # time delta in seconds</span>
+        <span class="c1">#             dt_99 = np.percentile(dt,99) # mask to identify data gaps </span>
+                    
+        <span class="c1">#             tolerance = 1.1*max(dt_99,dt_99_in)</span>
+        <span class="c1">#         else:</span>
+        <span class="c1">#             tolerance = 1e6 # set to 30 :)</span>
+                    
+                    
+                
+
+            
+        <span class="c1">#     print(tolerance)</span>
+        <span class="c1">#     self.pose = self.pose.reindex(t_in, tolerance=pd.to_timedelta(f&#39;{tolerance} s&#39;), method=&#39;nearest&#39;)</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     self.pose = self.pose.reindex(t_in, method=&#39;nearest&#39;)</span>
+            
+        <span class="c1">#rich.print(f&quot;[light_green]({self.name}) successfully resampled on interval&quot;)</span>
+                
+        <span class="c1">#rich.print(f&quot;[bold cyan]({self.name})[white] pose data successfully resampled\n{(len(self.name)+3)*&#39; &#39;}[white bold]interval:[white] {t_in[0].strftime(&#39;%D %H:%M&#39;)}-{t_in[-1].strftime(&#39;%D %H:%M&#39;)}\n{(len(self.name)+3)*&#39; &#39;}[white bold]% valid:[white] {(self.pose.isnull().sum()/(~self.pose.isnull()).sum()).mean()*100} &quot;)</span>
+        
+        
+        <span class="c1">#return p_out</span>
+        
+        
+<div class="viewcode-block" id="Pose.resample_from">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.resample_from">[docs]</a>
+    <span class="k">def</span> <span class="nf">resample_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tser</span><span class="p">,</span><span class="n">field_name</span><span class="p">,</span> <span class="n">tolerance</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">z_convention</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        set field in the pose data (&#39;x&#39;,&#39;y&#39;,&#39;z&#39;,&#39;pitch&#39;,&#39;roll&#39;,&#39;heading&#39;) </span>
+<span class="sd">        from an external timeseries. </span>
+<span class="sd">        </span>
+<span class="sd">        This method resamples the input timeseries data to align with the pose timesteps</span>
+<span class="sd">        </span>
+<span class="sd">        Input timesteps that could not be matched will be filled in with nan values. </span>
+<span class="sd">        It uses nearest neighbor search to find the closest matching timestamps in the input timeseries.</span>
+<span class="sd"> </span>
+<span class="sd">        </span>
+<span class="sd">        input timeseries must be a pandas series object </span>
+<span class="sd">        </span>
+<span class="sd">        z_convention: str, optional</span>
+<span class="sd">           z convention for the input timeseries. &#39;normal&#39; (positive z in up) or &#39;reverse&#39; (negative z is up). </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">tolerance</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span> <span class="c1"># calculate the right tolerance </span>
+        
+        
+            
+            <span class="c1"># calculate timestep for input timeseries</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">tser</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">prepend</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">/</span><span class="mf">1e9</span> <span class="c1"># time delta in seconds</span>
+            <span class="n">dt_99_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="c1"># mask to identify data gaps </span>
+            
+            <span class="c1"># calculate timestep for existing timeseries</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">prepend</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">/</span><span class="mf">1e9</span> <span class="c1"># time delta in seconds</span>
+            <span class="n">dt_99</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="c1"># mask to identify data gaps </span>
+            
+            <span class="n">tolerance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dt_99</span><span class="p">,</span><span class="n">dt_99_in</span><span class="p">)</span>
+            
+
+            
+        
+        <span class="n">tser</span> <span class="o">=</span> <span class="n">tser</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">tolerance</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> <span class="c1"># check if input field_name is valid</span>
+        
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tser</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+            <span class="c1"># if z_convention == self.z_convention:</span>
+            <span class="c1">#     self.pose[field_name] = tser.to_numpy()</span>
+            <span class="c1"># else:</span>
+            <span class="c1">#     self.pose[field_name] = -1*tser.to_numpy()</span>
+                
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SyntaxWarning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s1"> is not a valid field </span><span class="se">\n</span><span class="s1">Field options: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+            
+            
+<div class="viewcode-block" id="Pose.save">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fpath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># serialize a Pose robject </span>
+        <span class="k">if</span> <span class="n">fpath</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fpath</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.pose&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fpath</span> <span class="o">=</span> <span class="n">fpath</span> <span class="o">+</span> <span class="s1">&#39;.pose&#39;</span>
+            
+            
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dill_file</span><span class="p">:</span>
+            <span class="c1"># serialize the data manager object and save to file</span>
+            <span class="n">dill</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dill_file</span><span class="p">)</span></div>
+
+            
+            
+<div class="viewcode-block" id="Pose.copy">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.copy">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">deep</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a copy of the pose object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        deep : bool, optional</span>
+<span class="sd">            If True, perform a deep copy. If False, perform a shallow copy.</span>
+<span class="sd">            The default is False.</span>
+<span class="sd">            </span>
+<span class="sd">        name: str</span>
+<span class="sd">            name of the copied Pose object (updates self.name)</span>
+<span class="sd">            </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Pose</span>
+<span class="sd">            A copy of the pose object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        
+        <span class="k">if</span> <span class="n">deep</span><span class="p">:</span>
+            <span class="n">pout</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pout</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            
+            <span class="n">pout</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="n">pout</span></div>
+
+    
+<div class="viewcode-block" id="Pose.merge">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.Pose.merge">[docs]</a>
+    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pose_in</span><span class="p">):</span>
+        <span class="kc">None</span></div>
+</div>
+
+
+<span class="c1">#%%</span>
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="concatenate">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.concatenate">[docs]</a>
+<span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">pose_in</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">z_convention</span><span class="o">=</span><span class="s1">&#39;automatic&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Concatenate multiple pose objects.</span>
+
+<span class="sd">    This function concatenates multiple pose objects into a single pose object. It checks the z-convention of all</span>
+<span class="sd">    input data and adjusts it as necessary.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        pose_in (list): A list of pose objects to concatenate.</span>
+<span class="sd">        name (str): The name of the concatenated pose object.</span>
+<span class="sd">        z_convention (str, optional): The z-convention for the input data. If set to &#39;automatic&#39; (default), the function</span>
+<span class="sd">            will determine the most frequent z-convention among the input pose objects.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Pose.Pose: A concatenated pose object.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        # Create a list of pose objects</span>
+<span class="sd">        pose_objects = [pose1, pose2, pose3]</span>
+
+<span class="sd">        # Concatenate the pose objects into a new pose object named &#39;concatenated_pose&#39;</span>
+<span class="sd">        concatenated_pose = concatenate(pose_objects, name=&#39;concatenated_pose&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">most_frequent</span><span class="p">(</span><span class="n">List</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">List</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">List</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+
+    <span class="c1"># Determine the most frequent z-convention if &#39;automatic&#39; is selected</span>
+    <span class="k">if</span> <span class="n">z_convention</span> <span class="o">==</span> <span class="s1">&#39;automatic&#39;</span><span class="p">:</span>
+        <span class="n">z_convention</span> <span class="o">=</span> <span class="n">most_frequent</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">z_convention</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pose_in</span><span class="p">])</span>
+
+    <span class="n">pose_dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">pose</span> <span class="ow">in</span> <span class="n">pose_in</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pose</span><span class="o">.</span><span class="n">z_convention</span> <span class="o">==</span> <span class="n">z_convention</span><span class="p">:</span>
+            <span class="n">pose_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pose</span><span class="o">.</span><span class="n">set_z_convention</span><span class="p">(</span><span class="n">z_convention</span><span class="p">,</span> <span class="n">update_z</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">pose_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">)</span>
+
+    <span class="n">pose</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">pose_dfs</span><span class="p">)</span>
+    <span class="n">pose</span> <span class="o">=</span> <span class="n">pose</span><span class="p">[</span><span class="o">~</span><span class="n">pose</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pose</span> <span class="o">=</span> <span class="n">pose</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">z_convention</span><span class="o">=</span><span class="n">z_convention</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">pose</span>
+
+    <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="load">
+<a class="viewcode-back" href="../../../pyplume.pose.html#pyplume.pose.Pose.load">[docs]</a>
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+    <span class="c1"># deserialize a Pose object </span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dill_file</span><span class="p">:</span>
+        <span class="c1"># deserialize data manager object and reinitilize the print consoles</span>
+         <span class="n">p</span> <span class="o">=</span> <span class="n">dill</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dill_file</span><span class="p">)</span>    
+
+             
+    <span class="k">return</span> <span class="n">p</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, anba.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

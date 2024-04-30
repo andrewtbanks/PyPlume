@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyplume.pd0.processing &mdash; pyplume  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyplume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pd0%20Dataset.html"><strong>Pd0 Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ctd%20Dataset.html"><strong>CTD Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Pose.html"><strong>Pose</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Data%20Manager.html"><strong>Data Manager</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyplume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyplume.pd0.processing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyplume.pd0.processing</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Jul 21 15:45:10 2023</span>
+
+<span class="sd">@author: anba</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="processing">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.processing.processing">[docs]</a>
+<span class="k">class</span> <span class="nc">processing</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pd0</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span> <span class="o">=</span> <span class="n">pd0</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ECHO INTENSITY&#39;</span><span class="p">,</span><span class="s1">&#39;CORRELATION MAGNITUDE&#39;</span><span class="p">,</span><span class="s1">&#39;PERCENT GOOD&#39;</span><span class="p">]</span> <span class="c1"># keys for fields defined in ensemble data. Can be modified by append_to_ensembles method</span>
+        
+        
+        <span class="c1">#vectorize some functions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">water_absorption_coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scalar_water_absorption_coeff</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sediment_absorption_coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scalar_sediment_absorption_coeff</span><span class="p">)</span>   
+        <span class="bp">self</span><span class="o">.</span><span class="n">counts_to_absolute_backscatter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scalar_counts_to_absolute_backscatter</span><span class="p">)</span>
+
+
+    <span class="c1"># def ABS_to_NTU(self,ABS, A, B):</span>
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    <span class="c1">#     Convert ABS to NTU using the equation 10log(SSC) = A*Backscatter + B.</span>
+    
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     ABS : numpy.ndarray</span>
+    <span class="c1">#         Absolute backscatter values</span>
+    <span class="c1">#     A : float</span>
+    <span class="c1">#         Coefficient A in the equation.</span>
+    <span class="c1">#     B : float</span>
+    <span class="c1">#         Coefficient B in the equation.</span>
+    
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     numpy.ndarray</span>
+    <span class="c1">#         Nephelometric Turbidity Units (NTU) calculated from ABS.</span>
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    
+    <span class="c1">#     ABS[ABS &gt;= 32768] = np.nan</span>
+    <span class="c1">#     return (1 / 10) * 10**(A * ABS + B) </span>
+    
+    <span class="c1"># def NTU_to_SSC(self,NTU,A):</span>
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    <span class="c1">#     Convert NTU to SSC using equation SCC = A*NTU</span>
+    
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     NTU : numpy.ndarray</span>
+    <span class="c1">#         Absorption values.</span>
+    <span class="c1">#     A : float</span>
+    <span class="c1">#         Coefficient A in the equation.</span>
+    
+    
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     numpy.ndarray</span>
+    <span class="c1">#         Suspended solids concentration (SSC) calcualted from NTU</span>
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    <span class="c1">#     return A*NTU </span>
+<div class="viewcode-block" id="processing.mask_bottom_track">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.processing.processing.mask_bottom_track">[docs]</a>
+    <span class="k">def</span> <span class="nf">mask_bottom_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># create a mask based on ADCP bottom track </span>
+        
+        <span class="c1"># cell offset is number of cells to mask above (positive) or below (negative) the bottom-track cell. </span>
+        <span class="c1"># Mask bottom track</span>
+        <span class="n">offset_distance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">depth_cell_length</span><span class="o">*</span><span class="n">cell_offset</span>
+        
+        <span class="n">bt_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_bottom_track</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">bt_range</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+            <span class="n">bt_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">bt_range</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bt_range</span><span class="p">[</span><span class="n">bt_range</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32675</span>
+            <span class="n">bin_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">))</span>
+            <span class="n">bin_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">bin_centers</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">bt_range</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">depth_cell_length</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">bin_centers</span><span class="o">-</span> <span class="n">cell_offset</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bottom track&#39;</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+            
+            
+
+         
+    <span class="k">def</span> <span class="nf">_scalar_counts_to_absolute_backscatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">E_r</span><span class="p">,</span><span class="n">k_c</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">Tx_T</span><span class="p">,</span> <span class="n">Tx_PL</span><span class="p">,</span> <span class="n">P_DBW</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Absolute Backscatter Equation from Deines (Updated - Mullison 2017 TRDI Application Note FSA031)</span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        E_r : float</span>
+<span class="sd">            Measured RSSI amplitude in the absence of any signal (noise), in counts.</span>
+<span class="sd">        C : float</span>
+<span class="sd">            Constant combining several parameters specific to each instrument.</span>
+<span class="sd">        k_c : float</span>
+<span class="sd">            Factor to convert amplitude counts to decibels (dB).</span>
+<span class="sd">        E : float</span>
+<span class="sd">            Measured Returned Signal Strength Indicator (RSSI) amplitude, in counts.</span>
+<span class="sd">        Tx_T : float</span>
+<span class="sd">            Tranducer temperature in deg C.</span>
+<span class="sd">        R : float</span>
+<span class="sd">            Along-beam range to the measurement in meters</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            Acoustic absorption (dB/m). </span>
+<span class="sd">        Tx_PL : float</span>
+<span class="sd">            Transmit pulse length in dBm.</span>
+<span class="sd">        P_DBW : float</span>
+<span class="sd">            Transmit pulse power in dBW.</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Tuple containing two elements:</span>
+<span class="sd">            - Sv : float</span>
+<span class="sd">                Apparent volume scattering strength.</span>
+<span class="sd">            - StN : float</span>
+<span class="sd">                True signal to noise ratio.</span>
+<span class="sd">    </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The use of the backscatter equation should be limited to ranges beyond π/4 * Rayleigh Distance for the given instrument.</span>
+<span class="sd">        - Rayleigh Distance is calculated as transmit pulse length * α / width, representing the distance at which the beam can be considered to have fully formed.</span>
+<span class="sd">        - For further details, refer to the original documentation by Deines.</span>
+<span class="sd">        - 𝑘_c is a factor used to convert the amplitude counts reported by the ADCP’s receive circuitry to decibels (dB).</span>
+<span class="sd">        - 𝐸 is the measured Returned Signal Strength Indicator (RSSI) amplitude reported by the ADCP for each bin along each beam, in counts.</span>
+<span class="sd">        - 𝐸_r is the measured RSSI amplitude seen by the ADCP in the absence of any signal (the noise), in counts, and which is constant for a given ADCP.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">StN</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">k_c</span> <span class="o">*</span> <span class="n">E</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">k_c</span> <span class="o">*</span> <span class="n">E_r</span> <span class="o">/</span> <span class="mi">10</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">k_c</span> <span class="o">*</span> <span class="n">E_r</span> <span class="o">/</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">L_DBM</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">Tx_PL</span><span class="p">)</span>
+        <span class="c1">#P_DBW = 10 * np.log10(Tx_Pw)</span>
+        <span class="n">Sv</span> <span class="o">=</span> <span class="n">C</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="n">Tx_T</span> <span class="o">+</span> <span class="mf">273.16</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">R</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">L_DBM</span> <span class="o">-</span> <span class="n">P_DBW</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">R</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">k_c</span> <span class="o">*</span> <span class="p">(</span><span class="n">E</span> <span class="o">-</span> <span class="n">E_r</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    
+        <span class="k">return</span> <span class="n">Sv</span><span class="p">,</span> <span class="n">StN</span>
+    
+       
+        
+    <span class="k">def</span> <span class="nf">_scalar_water_absorption_coeff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">pH</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate water absorption coefficient.</span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        T : float</span>
+<span class="sd">            Temperature in degrees Celsius.</span>
+<span class="sd">        S : float</span>
+<span class="sd">            Salinity in practical salinity units (psu).</span>
+<span class="sd">        z : float</span>
+<span class="sd">            Depth in meters.</span>
+<span class="sd">        f : float</span>
+<span class="sd">            Frequency in kHz.</span>
+<span class="sd">        pH : float</span>
+<span class="sd">            Acidity.</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Water absorption coefficient in dB/km.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mf">1449.2</span> <span class="o">+</span> <span class="mf">4.6</span> <span class="o">*</span> <span class="n">T</span> <span class="o">-</span> <span class="mf">0.055</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.00029</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.0134</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span> <span class="o">-</span> <span class="mi">35</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.016</span> <span class="o">*</span> <span class="n">z</span>
+        <span class="c1">#c = 1412 + 3.21 * T + 1.19 * S + 0.0167 * z</span>
+    
+        <span class="c1"># Boric acid component</span>
+        <span class="n">A1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">8.68</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mf">0.78</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">P1</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="mf">2.8</span> <span class="o">*</span> <span class="p">((</span><span class="n">S</span> <span class="o">/</span> <span class="mi">35</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1245</span> <span class="o">/</span> <span class="p">(</span><span class="mi">273</span> <span class="o">+</span> <span class="n">T</span><span class="p">)))</span>
+    
+        <span class="c1"># Magnesium sulphate component</span>
+        <span class="n">A2</span> <span class="o">=</span> <span class="mf">21.44</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.025</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">P2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.37e-4</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="p">(</span><span class="mf">6.2e-9</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">f2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">8.17</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1990</span> <span class="o">/</span> <span class="p">(</span><span class="mi">273</span> <span class="o">+</span> <span class="n">T</span><span class="p">))))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.0018</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span> <span class="o">-</span> <span class="mi">35</span><span class="p">))</span>
+    
+        <span class="k">if</span> <span class="n">T</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="n">A3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">4.937e-4</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mf">2.59e-5</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="p">(</span><span class="mf">9.11e-7</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.5e-8</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+        <span class="k">elif</span> <span class="n">T</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="n">A3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3.964e-4</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.146e-5</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.45e-7</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="mf">6.5e-8</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+        <span class="n">P3</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mf">3.83e-5</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="p">(</span><span class="mf">4.9e-10</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    
+        <span class="c1"># Calculate water absorption coefficient</span>
+        <span class="n">alpha_w</span> <span class="o">=</span> <span class="p">(</span><span class="n">A1</span> <span class="o">*</span> <span class="n">P1</span> <span class="o">*</span> <span class="n">f1</span> <span class="o">*</span> <span class="p">(</span><span class="n">f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">f</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">f1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">A2</span> <span class="o">*</span> <span class="n">P2</span> <span class="o">*</span> <span class="n">f2</span> <span class="o">*</span> <span class="p">(</span><span class="n">f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">f</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">f2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">A3</span> <span class="o">*</span> <span class="n">P3</span> <span class="o">*</span> <span class="p">(</span><span class="n">f</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        
+        <span class="c1"># Convert absorption coefficient to dB/km</span>
+        <span class="n">alpha_w</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha_w</span>
+        
+        <span class="k">return</span> <span class="n">alpha_w</span>
+    
+    
+    <span class="k">def</span> <span class="nf">_scalar_sediment_absorption_coeff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ps</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">SSC</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span><span class="n">S</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate sediment absorption coefficient.</span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ps : float</span>
+<span class="sd">            Particle density in kg/m^3.</span>
+<span class="sd">        pw : float</span>
+<span class="sd">            Water density in kg/m^3.</span>
+<span class="sd">        d : float</span>
+<span class="sd">            Particle diameter in meters.</span>
+<span class="sd">        SSC : float</span>
+<span class="sd">            Suspended sediment concentration in kg/m^3.</span>
+<span class="sd">        T : float</span>
+<span class="sd">            Temperature in degrees Celsius.</span>
+<span class="sd">        f : float</span>
+<span class="sd">            Frequency in kHz .</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Sediment absorption coefficient.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mf">1449.2</span> <span class="o">+</span> <span class="mf">4.6</span> <span class="o">*</span> <span class="n">T</span> <span class="o">-</span> <span class="mf">0.055</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.00029</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.0134</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span> <span class="o">-</span> <span class="mi">35</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.016</span> <span class="o">*</span> <span class="n">z</span> <span class="c1"># speed of sound in water</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="mf">40e-6</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">20</span> <span class="o">+</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Kinematic viscosity (m2/s)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span> <span class="o">/</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="n">delt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">9</span> <span class="o">/</span> <span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">d</span><span class="p">))</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">ps</span> <span class="o">/</span> <span class="n">pw</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="mi">9</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">d</span><span class="p">)))</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">c</span>  <span class="c1"># Wave number (Assumed, as it isn&#39;t defined in the paper)</span>
+    
+        <span class="n">alpha_s</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">96</span> <span class="o">*</span> <span class="n">ps</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="p">((</span><span class="n">sig</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ps</span><span class="p">)</span> <span class="o">+</span> \
+                  <span class="p">(</span><span class="n">s</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">sig</span> <span class="o">+</span> <span class="n">delt</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">20</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="o">*</span> <span class="n">SSC</span>
+    
+        <span class="k">return</span> <span class="n">alpha_s</span>     
+
+        
+
+<div class="viewcode-block" id="processing.calculate_absolute_backscatter">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.processing.processing.calculate_absolute_backscatter">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate_absolute_backscatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert numpy array of ensemble data of echo intensity to absolute backscatter then added to ensemble_data property of the WorkhorseADCP class.</span>
+<span class="sd">    </span>
+<span class="sd">        Optional Args:</span>
+<span class="sd">            E_r</span>
+<span class="sd">            k_c</span>
+<span class="sd">            C</span>
+<span class="sd">            alpha </span>
+<span class="sd">            P_dbw</span>
+<span class="sd">     </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    
+    
+        <span class="n">E_r</span> <span class="o">=</span> <span class="mi">39</span> <span class="c1"># noise floor </span>
+        
+        <span class="c1">## select C based on WB commmand (0 = 25%, 1 = 6.25%)</span>
+        <span class="n">WB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">ensemble_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;FIXED LEADER&#39;</span><span class="p">][</span><span class="s1">&#39;SYSTEM BANDWIDTH </span><span class="si">{WB}</span><span class="s1">&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">WB</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="o">-</span><span class="mf">139.09</span> <span class="c1">#for Workhorse 600, 25% </span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="o">-</span><span class="mf">149.14</span> <span class="c1"># for Workhorse 600, 6%</span>
+        <span class="c1"># Beam High Gain RSSI</span>
+        
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="p">,</span><span class="s1">&#39;PT3&#39;</span><span class="p">):</span>
+            <span class="n">k_c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">PT3</span><span class="o">.</span><span class="n">k_c</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">k_c</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mf">0.3931</span><span class="p">,</span><span class="c1"># beam 1</span>
+                    <span class="mi">2</span><span class="p">:</span> <span class="mf">0.4145</span><span class="p">,</span><span class="c1"># beam 2</span>
+                    <span class="mi">3</span><span class="p">:</span> <span class="mf">0.416</span><span class="p">,</span><span class="c1"># beam3</span>
+                    <span class="mi">4</span><span class="p">:</span> <span class="mf">0.4129</span><span class="p">}</span><span class="c1"># beam4</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">ensemble_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;SYSTEM CONFIGURATION&quot;</span><span class="p">][</span><span class="s2">&quot;FREQUENCY&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;300-kHz&#39;</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.068</span> <span class="c1">#nominal ocean value for a 600 kHz unit </span>
+            <span class="n">P_dbw</span> <span class="o">=</span> <span class="mi">14</span> <span class="c1">#battery supply power for Workhorse 300</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;300 kHz Unit&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">ensemble_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;SYSTEM CONFIGURATION&quot;</span><span class="p">][</span><span class="s2">&quot;FREQUENCY&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;600-kHz&#39;</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span>  <span class="mf">0.178</span> <span class="c1">#nominal ocean value for a 600 kHz unit </span>
+            <span class="n">P_dbw</span> <span class="o">=</span> <span class="mi">9</span> <span class="c1">#battery supply power for Workhorse 600</span>
+            
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">ensemble_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;SYSTEM CONFIGURATION&quot;</span><span class="p">][</span><span class="s2">&quot;FREQUENCY&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;75-kHz&#39;</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span>  <span class="mf">0.027</span> <span class="c1">#nominal ocean value for a 600 kHz unit </span>
+            <span class="n">P_dbw</span> <span class="o">=</span> <span class="mf">27.3</span> <span class="c1">#battery supply power for Workhorse 600</span>
+            
+            
+        <span class="c1"># overwrite defaults with kwarg parameters </span>
+        <span class="n">E_r</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;E_r&#39;</span><span class="p">,</span><span class="n">E_r</span><span class="p">)</span> 
+        <span class="n">C</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="n">C</span><span class="p">)</span>
+        <span class="n">k_c</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;k_c&#39;</span><span class="p">,</span><span class="n">k_c</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="n">P_dbw</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;P_dbw&#39;</span><span class="p">,</span><span class="n">P_dbw</span><span class="p">)</span>
+        
+    
+        <span class="c1">#get other instrument data</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_sensor_temperature</span><span class="p">(),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">bin_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">(),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">))</span><span class="c1">#/np.cos(20*np.pi/180)#/100</span>
+        <span class="n">transmit_pulse_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_sensor_transmit_pulse_lengths</span><span class="p">(),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="c1">#/100</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_ensemble_array</span><span class="p">(</span><span class="n">field_name</span> <span class="o">=</span> <span class="s1">&#39;ECHO INTENSITY&#39;</span><span class="p">)</span> <span class="c1">#echo intensity array </span>
+        
+        <span class="c1"># initalize arrays  </span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">))</span>
+        <span class="n">StN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">))</span>
+    
+        <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">):</span>
+            <span class="c1"># StN[beam,:,:] = (10**(k_c[beam+1]*E[beam,:,:]/10) - 10**(k_c[beam+1]*E_r/10))/10**(k_c[beam+1]*E_r/10)</span>
+            <span class="c1"># X[beam,:,:] = C + 10*np.log10((temperature + 273.16)*(bin_distances**2)) - 10*np.log10(transmit_pulse_lengths) - P_dbw + 2*alpha*bin_distances + 10*np.log10(10**(k_c[beam+1]*(E[beam,:,:] - E_r)/10)-1)</span>
+            
+            <span class="n">sv</span><span class="p">,</span><span class="n">stn</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">counts_to_absolute_backscatter</span><span class="p">(</span><span class="n">E</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="n">beam</span><span class="p">],</span>
+                                                        <span class="n">E_r</span> <span class="o">=</span> <span class="n">E_r</span><span class="p">,</span>
+                                                        <span class="n">k_c</span><span class="o">=</span> <span class="n">k_c</span><span class="p">[</span><span class="n">beam</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
+                                                        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span>
+                                                        <span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="p">,</span>
+                                                        <span class="n">R</span> <span class="o">=</span> <span class="n">bin_distances</span><span class="p">,</span>
+                                                        <span class="n">Tx_T</span> <span class="o">=</span> <span class="n">temperature</span><span class="p">,</span>
+                                                        <span class="n">Tx_PL</span> <span class="o">=</span> <span class="n">transmit_pulse_lengths</span><span class="p">,</span>
+                                                        <span class="n">P_DBW</span> <span class="o">=</span> <span class="n">P_dbw</span><span class="p">)</span>
+
+            
+            <span class="n">StN</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span> <span class="o">=</span> <span class="n">stn</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span> <span class="o">=</span> <span class="n">sv</span>
+            
+            
+            <span class="c1">#X[beam,:,:] = C + 10*np.log10((temperature*bin_distances**2)/(transmit_pulse_lengths*P_dbw)) + 2*alpha*bin_distances + k_c[beam+1]*(E[beam,:,:] - E_r)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">append_to_ensembles</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s1">&#39;ABSOLUTE BACKSCATTER&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">append_to_ensembles</span><span class="p">(</span><span class="n">StN</span><span class="p">,</span><span class="s1">&#39;SIGNAL TO NOISE RATIO&#39;</span><span class="p">)</span>   </div>
+
+        
+        
+        
+        
+<div class="viewcode-block" id="processing.append_to_ensembles">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.processing.processing.append_to_ensembles">[docs]</a>
+    <span class="k">def</span> <span class="nf">append_to_ensembles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">nan_value</span> <span class="o">=</span> <span class="mi">32768</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format numpy array of ensemble data into a list then add to ensemble_data property of the WorkhorseADCP class.</span>
+<span class="sd">        Input array must have dimensions of (n_beams,nbins,n_ensemles). In a typical use case, ensemble data is manipulated in </span>
+<span class="sd">        array format, then appended to the ensemble_data property and written to a PD0 file. </span>
+<span class="sd">        Args:</span>
+<span class="sd">            X: numpy array with dimensions (n_bins,n_ensembles,n_beams)</span>
+<span class="sd">            title: (string) title for the formatted data when appended to the ensemble_data property of the WorkhorseADCP class object. </span>
+<span class="sd">            nan_value: (int) value to use in place of nan. 32768 is default. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="c1"># update the list of ensemble field names</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">):</span>
+            <span class="n">ensemble_data</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># data in the current ensemble</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">):</span>
+                <span class="n">bin_data</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># data in the current bin</span>
+                <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">):</span>
+                    
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">bm</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span>
+                    <span class="c1">#bin_data.append(int(val))</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">bin_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">bin_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nan_value</span><span class="p">)</span>
+                        
+                        
+                <span class="n">ensemble_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bin_data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">ensemble_data</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="n">title</span><span class="p">]</span> <span class="o">=</span> <span class="n">ensemble_data</span>  </div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, anba.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
