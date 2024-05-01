@@ -251,7 +251,7 @@ class Pd0:
         self._ensemble_rollover = 0 # counter for ensemble rollover (at 65,536)
         self._address_offsets = [] # for general use across methods
         self.ensemble_data = []
-        
+        self.name = kwargs.pop('name',filepath.split(os.sep)[-1])
  
         class metadata:
             def __init__(self,pd0):

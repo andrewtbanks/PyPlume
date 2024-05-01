@@ -27,19 +27,27 @@ from rich.theme import Theme
 import time
 
 
-from ..ptools import ptools
-from ..plotting.matplotlib_shell import subplots, dhi_colors
-
-
-
-
-from ..pd0.pd0_decoder import DataSet as DataSet_pd0,PT3,Pd0
-from ..ctd.seabird_hex_decoder import seabird_ctd, DataSet as DataSet_ctd
+# from ..ptools import ptools
+# from ..plotting.matplotlib_shell import subplots, dhi_colors
+# from ..pd0.pd0_decoder import DataSet as DataSet_pd0,PT3,Pd0
+# from ..ctd.seabird_hex_decoder import seabird_ctd, DataSet as DataSet_ctd
 
 
 np.seterr(divide='ignore', invalid='ignore')
 
 import dill
+
+
+
+
+
+from pyplume import ptools
+from pyplume.plotting.matplotlib_shell import subplots, dhi_colors
+from pyplume.pd0.pd0_decoder import DataSet as DataSet_pd0,PT3,Pd0
+from pyplume.ctd.seabird_hex_decoder import seabird_ctd, DataSet as DataSet_ctd
+
+
+
 
 #%%
 
@@ -94,7 +102,7 @@ class manager_base:
         self.n_files = 0 # number of files in the dataset
         self.dataset_size = 0 # size of the entire data set (in kb)
         self.data = [] # data currently being held in memory 
-        
+        self.labels = []
         
         
         ## set parser type 
@@ -146,7 +154,7 @@ class manager_base:
             
         self.data_active = self.n_files*[False] # list of indicators for whether a file has been pulled into memory
         self.data = self.n_files*[None]
-        self.labels = [f'file{i}'for i in range(self.n_files)] # label for imported files (search handle)
+        #self.labels = [f'file{i}'for i in range(self.n_files)] # label for imported files (search handle)
      
         
     def create_console(self):
@@ -399,6 +407,7 @@ class manager_base:
         self.n_files+=1 
         self.filepaths.append(fpath)
         self.dataset_size+=os.path.getsize(fpath[0])
+        self.labels.append(dataset.name)
         
             
         
@@ -408,7 +417,8 @@ class manager_base:
         
         
         
-        
+    # def get_data(label):
+    #     retrieve a data
 
             
             

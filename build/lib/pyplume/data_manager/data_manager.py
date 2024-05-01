@@ -94,7 +94,7 @@ class manager_base:
         self.n_files = 0 # number of files in the dataset
         self.dataset_size = 0 # size of the entire data set (in kb)
         self.data = [] # data currently being held in memory 
-        
+        self.labels = []
         
         
         ## set parser type 
@@ -146,7 +146,7 @@ class manager_base:
             
         self.data_active = self.n_files*[False] # list of indicators for whether a file has been pulled into memory
         self.data = self.n_files*[None]
-        self.labels = [f'file{i}'for i in range(self.n_files)] # label for imported files (search handle)
+        #self.labels = [f'file{i}'for i in range(self.n_files)] # label for imported files (search handle)
      
         
     def create_console(self):
@@ -399,6 +399,7 @@ class manager_base:
         self.n_files+=1 
         self.filepaths.append(fpath)
         self.dataset_size+=os.path.getsize(fpath[0])
+        self.labels.append(dataset.name)
         
             
         

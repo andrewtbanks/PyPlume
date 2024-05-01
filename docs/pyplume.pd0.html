@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyplume.pd0 package &mdash; pyplume  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyplume.plotting package" href="pyplume.plotting.html" />
+    <link rel="prev" title="pyplume.ctd package" href="pyplume.ctd.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyplume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="API.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pyplume.html">pyplume package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pyplume.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyplume.ctd.html">pyplume.ctd package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pyplume.pd0 package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyplume.plotting.html">pyplume.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyplume.pose.html">pyplume.pose package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyplume.ptools.html">pyplume.ptools package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyplume.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pd0%20Dataset.html"><strong>Pd0 Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ctd%20Dataset.html"><strong>CTD Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pose.html"><strong>Pose</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Manager.html"><strong>Data Manager</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyplume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="API.html">API</a></li>
+          <li class="breadcrumb-item"><a href="pyplume.html">pyplume package</a></li>
+      <li class="breadcrumb-item active">pyplume.pd0 package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyplume.pd0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pyplume-pd0-package">
+<h1>pyplume.pd0 package<a class="headerlink" href="#pyplume-pd0-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-pyplume.pd0.PT3">
+<span id="pyplume-pd0-pt3-module"></span><h2>pyplume.pd0.PT3 module<a class="headerlink" href="#module-pyplume.pd0.PT3" title="Link to this heading"></a></h2>
+<p>Created on Wed Aug  2 16:34:15 2023</p>
+<p>&#64;author: anba</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.PT3.PT3">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.PT3.</span></span><span class="sig-name descname"><span class="pre">PT3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/PT3.html#PT3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.PT3.PT3" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.PT3.PT3.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/PT3.html#PT3.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.PT3.PT3.read" title="Link to this definition"></a></dt>
+<dd><p>Read the High Gain RSSI parameters from a TRDI PT3 calibration test file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>string</em>) – path to the .txt file containing PT3 test data</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>k_c</strong> – dictionary containign the parsed RSSI parameters for each beam</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyplume.pd0.geometry">
+<span id="pyplume-pd0-geometry-module"></span><h2>pyplume.pd0.geometry module<a class="headerlink" href="#module-pyplume.pd0.geometry" title="Link to this heading"></a></h2>
+<p>Created on Fri Jul 21 15:51:57 2023</p>
+<p>&#64;author: anba</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.geometry.</span></span><span class="sig-name descname"><span class="pre">geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.calculate_beam_geometry">
+<span class="sig-name descname"><span class="pre">calculate_beam_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.calculate_beam_geometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.calculate_beam_geometry" title="Link to this definition"></a></dt>
+<dd><p>calculate the relative beam midpoint position for every ensemble (accounting for sensor orientation and platform orientation)
+calculate the true bottom track distance (accounting for orientation).
+calculate the absolute position of each bin/ensemble in depth and relative to bottom track</p>
+<blockquote>
+<div><p>from the forward direction of the mounting platform. (E.g., the bow
+of the vessel). The default is 0.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>offset<span class="classifier">numpy array, optional</span></dt><dd><p>x,y,z offsets for the instrument. This offset
+should be the relative distance between the position measuremet
+(e.g., from the vessel GPS) and the center of the ADCP transducer
+face.The default is (0,0,0).</p>
+</dd>
+<dt>dr<span class="classifier">float, optional</span></dt><dd><p>radial distance from the center of the face of the ADCP to the center
+of the transdecer faces. The default is 0.1.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.get_absolute_beam_midpoint_positions">
+<span class="sig-name descname"><span class="pre">get_absolute_beam_midpoint_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.get_absolute_beam_midpoint_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.get_absolute_beam_midpoint_positions" title="Link to this definition"></a></dt>
+<dd><p>retrieve absolute x,y,z position of each bin and ensemble with masks applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>absolute_beam_midpoint_positions</strong> – list of beam midpoint positions for each beam and each ensemble.
+Element of the list contains the array for each beam, and each array
+has dimensions of (3,n_bins,n_ensembles)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of numpy arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.get_absolute_beam_midpoint_positions_HAB">
+<span class="sig-name descname"><span class="pre">get_absolute_beam_midpoint_positions_HAB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.get_absolute_beam_midpoint_positions_HAB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.get_absolute_beam_midpoint_positions_HAB" title="Link to this definition"></a></dt>
+<dd><p>retrieve absolute x,y,z position of each bin and ensemble with masks applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>absolute_beam_midpoint_positions</strong> – list of beam midpoint positions for each beam and each ensemble.
+Element of the list contains the array for each beam, and each array
+has dimensions of (3,n_bins,n_ensembles)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of numpy arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.get_bin_midpoints">
+<span class="sig-name descname"><span class="pre">get_bin_midpoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.get_bin_midpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.get_bin_midpoints" title="Link to this definition"></a></dt>
+<dd><p>Generate numpy array of bin midpoint distances in meters.
+:param None:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array with dimensions (n_ensembles)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.get_bin_midpoints_HAB">
+<span class="sig-name descname"><span class="pre">get_bin_midpoints_HAB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.get_bin_midpoints_HAB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.get_bin_midpoints_HAB" title="Link to this definition"></a></dt>
+<dd><p>Generate numpy array of bin midpoint heights, based on static instrument heihgt above bed.
+:param None:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array with dimensions (n_ensembles)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.get_bin_midpoints_depth">
+<span class="sig-name descname"><span class="pre">get_bin_midpoints_depth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.get_bin_midpoints_depth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.get_bin_midpoints_depth" title="Link to this definition"></a></dt>
+<dd><p>Generate numpy array of bin midpoint depths, based on static instrument depth.
+:param None:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array with dimensions (n_ensembles)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.get_corrected_bottom_track">
+<span class="sig-name descname"><span class="pre">get_corrected_bottom_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.get_corrected_bottom_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.get_corrected_bottom_track" title="Link to this definition"></a></dt>
+<dd><p>retrieve absolute x,y,z position of each bin and ensemble with masks applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>absolute_beam_midpoint_positions</strong> – list of beam midpoint positions for each beam and each ensemble.
+Element of the list contains the array for each beam, and each array
+has dimensions of (3,n_bins,n_ensembles)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of numpy arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.get_relative_beam_midpoint_positions">
+<span class="sig-name descname"><span class="pre">get_relative_beam_midpoint_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.get_relative_beam_midpoint_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.get_relative_beam_midpoint_positions" title="Link to this definition"></a></dt>
+<dd><p>retrieve absolute x,y,z position of each bin and ensemble with masks applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>absolute_beam_midpoint_positions</strong> – list of beam midpoint positions for each beam and each ensemble.
+Element of the list contains the array for each beam, and each array
+has dimensions of (3,n_bins,n_ensembles)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of numpy arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.set_beam_relative_geometry">
+<span class="sig-name descname"><span class="pre">set_beam_relative_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.set_beam_relative_geometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.set_beam_relative_geometry" title="Link to this definition"></a></dt>
+<dd><p>Calculate the x,y,z position of each bin in the coordinate reference
+frame of either the the position measurement for the instrument. Accounts
+for instrument beam angle (e.g., 20 deg) in x-z and y-z planes. Positions are in the reference
+frame of the instrument position measurement.
+:param rotation: Orientation of the ADCP. This is the number of degrees clockwise</p>
+<blockquote>
+<div><p>from the forward direction of the mounting platform. (E.g., the bow
+of the vessel). The default is 0.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>offset</strong> (<em>numpy array</em><em>, </em><em>optional</em>) – x,y,z offsets for the instrument. This offset
+should be the relative distance between the position measuremet
+(e.g., from the vessel GPS) and the center of the ADCP transducer
+face.The default is (0,0,0).</p></li>
+<li><p><strong>dr</strong> (<em>float</em><em>, </em><em>optional</em>) – radial distance from the center of the face of the ADCP to the center
+of the transdecer faces. The default is 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.geometry.geometry.set_pose">
+<span class="sig-name descname"><span class="pre">set_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/geometry.html#geometry.set_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.geometry.geometry.set_pose" title="Link to this definition"></a></dt>
+<dd><p>Define the instrument pose (position and orientation) with a
+Pose object. Makes a cope of the pose object and stores it under
+ctd.geometry.Pose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pose</strong> (<a class="reference internal" href="pyplume.pose.html#pyplume.pose.Pose.Pose" title="pyplume.pose.Pose.Pose"><em>Pose</em></a>) – Pose object containing position and orientation information.</p></li>
+<li><p><strong>update_orientation</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the adcp orientation (from internal gyroscope) will be
+used as the pose orientation (pitch, roll, and heading/yaw)</p></li>
+<li><p><strong>method</strong> (<em>'nearest'</em><em>, </em><em>'ffill'</em><em>,</em><em>'bfill'</em>)</p></li>
+<li><p><strong>pd.DataFrame.reindex</strong> (<em>**kwargs to send to</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyplume.pd0.masking">
+<span id="pyplume-pd0-masking-module"></span><h2>pyplume.pd0.masking module<a class="headerlink" href="#module-pyplume.pd0.masking" title="Link to this heading"></a></h2>
+<p>Created on Sat Jul 22 08:55:44 2023</p>
+<p>&#64;author: anba</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.masking.masking">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.masking.</span></span><span class="sig-name descname"><span class="pre">masking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/masking.html#masking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.masking.masking" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.masking.masking.apply_masks">
+<span class="sig-name descname"><span class="pre">apply_masks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/masking.html#masking.apply_masks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.masking.masking.apply_masks" title="Link to this definition"></a></dt>
+<dd><p>apply all of the active masks to the ensemble array X. Masked values
+will be converted to np.nan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy array</em>) – array of ensemble data with dimensions (n_bins,n_ensembles).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X</strong> – masked array of ensemble data with dimensions (n_bins,n_ensembles).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.masking.masking.define_mask">
+<span class="sig-name descname"><span class="pre">define_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/masking.html#masking.define_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.masking.masking.define_mask" title="Link to this definition"></a></dt>
+<dd><p>Define a boolean mask that can be applied to ensemble data when ensemble
+data is called. The ensemble data corresponding FALSE entries in the mask
+will be converted to np.nan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mask</strong> (<em>numpy array</em>) – numpy array with dimensions (n_beams,n_bins,n_ensembles).</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name for the mask</p></li>
+<li><p><strong>set_active</strong> (<em>bool</em>) – if True, the defined mask will be activated. All calls to
+get_ensemble_array will have this mask applied. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.masking.masking.delete_mask">
+<span class="sig-name descname"><span class="pre">delete_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/masking.html#masking.delete_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.masking.masking.delete_mask" title="Link to this definition"></a></dt>
+<dd><p>Define a mask</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name for the mask</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.masking.masking.set_mask_status">
+<span class="sig-name descname"><span class="pre">set_mask_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/masking.html#masking.set_mask_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.masking.masking.set_mask_status" title="Link to this definition"></a></dt>
+<dd><p>Change the status of a mask, or multiple masks.The ensemble data
+corresponding to FALSE entries in the mask will be converted to np.nan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – mask name, or list of mask names. if ‘all’, all defined masks will be
+activated. The default is ‘all’.</p></li>
+<li><p><strong>status</strong> (<em>TYPE</em>) – DESCRIPTION.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Invalid mask name</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyplume.pd0.pd0_decoder">
+<span id="pyplume-pd0-pd0-decoder-module"></span><h2>pyplume.pd0.pd0_decoder module<a class="headerlink" href="#module-pyplume.pd0.pd0_decoder" title="Link to this heading"></a></h2>
+<p>Created on Wed Jul 19 15:24:17 2023</p>
+<p>&#64;author: anba</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.pd0_decoder.</span></span><span class="sig-name descname"><span class="pre">DataSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyplume.pd0.pd0_decoder.Pd0" title="pyplume.pd0.pd0_decoder.Pd0"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pd0</span></code></a></p>
+<p>Extends the Pd0 class to provide enhanced analytical capabilities specifically
+tailored for handling and analyzing ADCP data.</p>
+<p>This class offers methods for extracting time series data from variable and fixed
+leaders, computing derived quantities like velocities and displacements, and applying
+corrections such as timezone or magnetic deviations. It also facilitates the integration
+with other data types like PT3 data for comprehensive analyses.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.timezone_correction">
+<span class="sig-name descname"><span class="pre">timezone_correction</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.timezone_correction" title="Link to this definition"></a></dt>
+<dd><p>Hours to adjust the time data for local timezone corrections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.magnetic_deviation_correction">
+<span class="sig-name descname"><span class="pre">magnetic_deviation_correction</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.magnetic_deviation_correction" title="Link to this definition"></a></dt>
+<dd><p>Degrees to adjust the velocity data for magnetic deviations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.name" title="Link to this definition"></a></dt>
+<dd><p>A derived name from the filepath, generally the filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.n_ensembles">
+<span class="sig-name descname"><span class="pre">n_ensembles</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.n_ensembles" title="Link to this definition"></a></dt>
+<dd><p>Number of ensembles loaded into memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.config" title="Link to this definition"></a></dt>
+<dd><p>Configuration parameters derived from the ADCP data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyplume.pd0.pd0_decoder.config_parameters" title="pyplume.pd0.pd0_decoder.config_parameters">config_parameters</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.plot" title="Link to this definition"></a></dt>
+<dd><p>A plotting tool associated with the dataset for visual analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyplume.pd0.plotting.plotting" title="pyplume.pd0.plotting.plotting">plotting</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.processing">
+<span class="sig-name descname"><span class="pre">processing</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.processing" title="Link to this definition"></a></dt>
+<dd><p>Processing tools for data manipulation and computation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyplume.pd0.processing.processing" title="pyplume.pd0.processing.processing">processing</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.geometry">
+<span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.geometry" title="Link to this definition"></a></dt>
+<dd><p>Geometrical tools for handling spatial dimensions and transformations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyplume.pd0.geometry.geometry" title="pyplume.pd0.geometry.geometry">geometry</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.mask">
+<span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.mask" title="Link to this definition"></a></dt>
+<dd><p>Masking tools for data cleaning and preparation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyplume.pd0.masking.masking" title="pyplume.pd0.masking.masking">masking</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.PT3">
+<span class="sig-name descname"><span class="pre">PT3</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.PT3" title="Link to this definition"></a></dt>
+<dd><p>PT3 data associated with the dataset, if provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyplume.pd0.PT3.PT3" title="pyplume.pd0.PT3.PT3">PT3</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the DataSet instance with the specified ADCP data file and optional parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_ensemble_datetimes">
+<span class="sig-name descname"><span class="pre">get_ensemble_datetimes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_ensemble_datetimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_ensemble_datetimes" title="Link to this definition"></a></dt>
+<dd><p>Returns an array of datetime objects representing the timestamps of each ensemble.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_leader_data">
+<span class="sig-name descname"><span class="pre">get_leader_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VARIABLE</span> <span class="pre">LEADER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_leader_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_leader_data" title="Link to this definition"></a></dt>
+<dd><p>Retrieves time series data for a specified field from the leader data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_ensemble_numbers">
+<span class="sig-name descname"><span class="pre">get_ensemble_numbers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_ensemble_numbers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_ensemble_numbers" title="Link to this definition"></a></dt>
+<dd><p>Returns an array of ensemble numbers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_sensor_transmit_pulse_lengths">
+<span class="sig-name descname"><span class="pre">get_sensor_transmit_pulse_lengths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_transmit_pulse_lengths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_sensor_transmit_pulse_lengths" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the ADCP transmit pulse lengths.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_sensor_temperature">
+<span class="sig-name descname"><span class="pre">get_sensor_temperature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_sensor_temperature" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the temperature data from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_bit_result">
+<span class="sig-name descname"><span class="pre">get_bit_result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_bit_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_bit_result" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the built-in test result from the ADCP.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_salinity">
+<span class="sig-name descname"><span class="pre">get_salinity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_salinity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_salinity" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the salinity data from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_sensor_pitch">
+<span class="sig-name descname"><span class="pre">get_sensor_pitch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_pitch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_sensor_pitch" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the pitch data from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_sensor_roll">
+<span class="sig-name descname"><span class="pre">get_sensor_roll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_sensor_roll" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the roll data from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_sensor_heading">
+<span class="sig-name descname"><span class="pre">get_sensor_heading</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_heading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_sensor_heading" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the heading data from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_sensor_transducer_depth">
+<span class="sig-name descname"><span class="pre">get_sensor_transducer_depth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_transducer_depth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_sensor_transducer_depth" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the depth of the transducer below the water surface.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_velocity">
+<span class="sig-name descname"><span class="pre">get_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VELOCITY'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_velocity" title="Link to this definition"></a></dt>
+<dd><p>Retrieves velocity data along with calculated displacements.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_bottom_track">
+<span class="sig-name descname"><span class="pre">get_bottom_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_bottom_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_bottom_track" title="Link to this definition"></a></dt>
+<dd><p>Retrieves bottom tracking data from the ADCP.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.DataSet.get_ensemble_array">
+<span class="sig-name descname"><span class="pre">get_ensemble_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ECHO</span> <span class="pre">INTENSITY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_ensemble_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.DataSet.get_ensemble_array" title="Link to this definition"></a></dt>
+<dd><p>Formats specified ensemble data field into a numpy array with optional masking.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">get_bit_result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_bit_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>This field contains the results of the WorkHorse ADCP’s Builtin
+Test function. A zero code indicates a successful BIT
+result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bit_result</strong> – ADCP bit result data. One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_bottom_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_bottom_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>beam_number</strong> (<em>int</em>) – beam number to use. if zero the beam average will be returned.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>bt_range</strong> – numpy array of distance to bottom</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">get_ensemble_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ECHO</span> <span class="pre">INTENSITY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_ensemble_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_ensemble_datetimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ensemble</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_ensemble_datetimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Generate numpy array of datetimes for ensembles.
+:param None:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array with dimensions (n_ensembles)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_ensemble_numbers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_ensemble_numbers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Get the ensemble number for every ensemble.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ensemble_numbers</strong> – ensemble numbers. One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">get_leader_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leader='VARIABLE</span> <span class="pre">LEADER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'int'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_leader_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Get a timeseries of data from fixed leader or variable leader. field
+names are identical to those in Workhorse Commands and Output Data
+Format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field</strong> (<em>str</em>) – field name.</p></li>
+<li><p><strong>leader</strong> (<em>ste</em><em>, </em><em>optional</em>) – ‘FIXED LEADER’ or ‘VARIABLE LEADER’. The default is ‘VARIABLE LEADER’.</p></li>
+<li><p><strong>dtype</strong> (<em>numpy dtype</em><em>, </em><em>optional</em>) – data type for the output numpy array. The default is int.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>data</strong> – One value for each ensemble.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">get_salinity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_salinity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Salinity value of the water at the transducer
+head (ES-command). This value may be a manual setting or
+a reading from a conductivity sensor.
+Scaling: LSD = 1 part per thousand; Range = 0 to 40 ppt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>salinity</strong> – One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">get_sensor_heading</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_heading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>WorkHorse ADCP heading angle (EHcommand).
+This value may be a manual setting or a reading
+from a heading sensor.
+Scaling: LSD = 0.01 degree; Range = 000.00 to 359.99 degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>heading</strong> – One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">get_sensor_pitch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_pitch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>WorkHorse ADCP pitch angle (EP-command).
+This value may be a manual setting or a reading from a tilt
+sensor. Positive values mean that Beam #3 is spatially
+higher than Beam #4.
+Scaling: LSD = 0.01 degree; Range = -20.00 to +20.00 degrees
+:returns: <strong>pitch</strong> – One value for each ensemble.
+:rtype: numpy array</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">get_sensor_roll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>WorkHorse ADCP roll angle (ER-command).
+This value may be a manual setting or a reading from a tilt
+sensor. For up-facing WorkHorse ADCPs, positive values
+mean that Beam #2 is spatially higher than Beam #1. For
+down-facing WorkHorse ADCPs, positive values mean that
+Beam #1 is spatially higher than Beam #2.
+Scaling: LSD = 0.01 degree; Range = -20.00 to +20.00 degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>roll</strong> – One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">get_sensor_temperature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>Temperature of the water at the transducer head
+(ET-command). This value may be a manual setting or a
+reading from a temperature sensor.
+Scaling: LSD = 0.01 degree; Range = -5.00 to +40.00 degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>temperature</strong> – ADCP temperature data in degrees C. One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">get_sensor_transducer_depth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_transducer_depth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Depth of the transducer below the water surface
+(ED-command). This value may be a manual setting or a
+reading from a depth sensor.
+Scaling: LSD = 1 decimeter; Range = 1 to 9999 decimeters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>transducer_depth</strong> – One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">get_sensor_transmit_pulse_lengths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_sensor_transmit_pulse_lengths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Get ADCP transmit pulse lengths. Data is from the ensemble variable headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>transmit_pulse_lengths</strong> – ADCP transmit pule lengths. One value for each ensemble.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">get_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VELOCITY'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#DataSet.get_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Retrieve velocity vectors including progressive vectors in m/s.
+Magnetic deviation correction is applied here.
+:param field_name: ensemble field name to use for velocity data. ‘VELOCITY’ is default.</p>
+<blockquote>
+<div><p>Other options might be ‘VELOCITY CORRECTED’ or other user specified velocity-like fields</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>u</strong> (<em>numpy array</em>) – u velocity array with dimensions (n_bins, n_ensembles)</p></li>
+<li><p><strong>v</strong> (<em>numpy array</em>) – v velocity array with dimensions (n_bins, n_ensembles)</p></li>
+<li><p><strong>z</strong> (<em>numpy array</em>) – z velocity array with dimensions (n_bins, n_ensembles)</p></li>
+<li><p><strong>du</strong> (<em>numpy array</em>) – displacement in u direction. Array with dimensions (n_bins, n_ensembles)</p></li>
+<li><p><strong>dv</strong> (<em>numpy array</em>) – displacement in v direction. Array with dimensions (n_bins, n_ensembles)</p></li>
+<li><p><strong>dz</strong> (<em>numpy array</em>) – displacement in z direction. Array with dimensions (n_bins, n_ensembles)</p></li>
+<li><p><strong>err</strong> (<em>numpy array</em>) – error velocity array with dimensions (n_bins, n_ensembles)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.pd0_decoder.</span></span><span class="sig-name descname"><span class="pre">Pd0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#Pd0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class for parsing and managing data from pd0 files, which are commonly used in
+oceanographic data collection with ADCP (Acoustic Doppler Current Profiler) instruments.</p>
+<p>This class provides functionality to read, process, validate, and access ensemble data
+from pd0 files. It includes methods for navigating through the data, retrieving specific
+ensembles, and extracting metadata and hydrodynamic measurements such as velocity and echo intensity.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0._filepath">
+<span class="sig-name descname"><span class="pre">_filepath</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0._filepath" title="Link to this definition"></a></dt>
+<dd><p>Path to the pd0 file being processed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0._checksum">
+<span class="sig-name descname"><span class="pre">_checksum</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0._checksum" title="Link to this definition"></a></dt>
+<dd><p>Checksum used for verifying the integrity of read data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NoneType or bytearray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0._ensemble_rollover">
+<span class="sig-name descname"><span class="pre">_ensemble_rollover</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0._ensemble_rollover" title="Link to this definition"></a></dt>
+<dd><p>Counter to manage the rollover of ensemble indices due to limitations in counting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0._address_offsets">
+<span class="sig-name descname"><span class="pre">_address_offsets</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0._address_offsets" title="Link to this definition"></a></dt>
+<dd><p>List of byte offsets for accessing specific data blocks within the file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.ensemble_data">
+<span class="sig-name descname"><span class="pre">ensemble_data</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.ensemble_data" title="Link to this definition"></a></dt>
+<dd><p>Parsed ensemble data stored as dictionaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of dicts</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.metadata" title="Link to this definition"></a></dt>
+<dd><p>An instance of the nested metadata class containing detailed information about the file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>metadata</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#Pd0.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__init__" title="Link to this definition"></a></dt>
+<dd><p>Constructor for initializing a Pd0 instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__get_first_and_last_ensembles">
+<span class="sig-name descname"><span class="pre">__get_first_and_last_ensembles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__get_first_and_last_ensembles" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the first and last ensembles to determine the scope of the data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__skip_to_ensemble">
+<span class="sig-name descname"><span class="pre">__skip_to_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__skip_to_ensemble" title="Link to this definition"></a></dt>
+<dd><p>Skips to a specified ensemble number within the file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__find_previous_ensemble">
+<span class="sig-name descname"><span class="pre">__find_previous_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__find_previous_ensemble" title="Link to this definition"></a></dt>
+<dd><p>Searches backwards to find the start of a valid ensemble.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__find_next_ensemble">
+<span class="sig-name descname"><span class="pre">__find_next_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__find_next_ensemble" title="Link to this definition"></a></dt>
+<dd><p>Searches forwards to find the start of a valid ensemble.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__check_valid_ensemble">
+<span class="sig-name descname"><span class="pre">__check_valid_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ensemble</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__check_valid_ensemble" title="Link to this definition"></a></dt>
+<dd><p>Checks the validity of an ensemble based on predefined criteria.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__read_ensembles">
+<span class="sig-name descname"><span class="pre">__read_ensembles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_progress</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__read_ensembles" title="Link to this definition"></a></dt>
+<dd><p>Reads a range of ensembles from the file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__read_ensemble">
+<span class="sig-name descname"><span class="pre">__read_ensemble</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__read_ensemble" title="Link to this definition"></a></dt>
+<dd><p>Reads and parses a single ensemble from the file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__read_ensemble_header">
+<span class="sig-name descname"><span class="pre">__read_ensemble_header</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__read_ensemble_header" title="Link to this definition"></a></dt>
+<dd><p>Reads and parses the header of an ensemble.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__read_fixed_leader">
+<span class="sig-name descname"><span class="pre">__read_fixed_leader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__read_fixed_leader" title="Link to this definition"></a></dt>
+<dd><p>Reads and parses the fixed leader of an ensemble.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__read_variable_leader">
+<span class="sig-name descname"><span class="pre">__read_variable_leader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__read_variable_leader" title="Link to this definition"></a></dt>
+<dd><p>Reads and parses the variable leader of an ensemble.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__read_next_bytes">
+<span class="sig-name descname"><span class="pre">__read_next_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__read_next_bytes" title="Link to this definition"></a></dt>
+<dd><p>Reads bytes from the file according to a specified format.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__get_LE_bit_string">
+<span class="sig-name descname"><span class="pre">__get_LE_bit_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byte</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__get_LE_bit_string" title="Link to this definition"></a></dt>
+<dd><p>Converts a byte into a string of bits (little-endian).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__parse_system_configuration">
+<span class="sig-name descname"><span class="pre">__parse_system_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">syscfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__parse_system_configuration" title="Link to this definition"></a></dt>
+<dd><p>Parses system configuration data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__parse_EX_command">
+<span class="sig-name descname"><span class="pre">__parse_EX_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__parse_EX_command" title="Link to this definition"></a></dt>
+<dd><p>Parses coordinate transformation commands.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.write_pd0">
+<span class="sig-name descname"><span class="pre">write_pd0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#Pd0.write_pd0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.write_pd0" title="Link to this definition"></a></dt>
+<dd><p>Writes parsed data back to a new pd0 file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__write_ensemble">
+<span class="sig-name descname"><span class="pre">__write_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ensemble</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__write_ensemble" title="Link to this definition"></a></dt>
+<dd><p>Writes a single ensemble’s data to a file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.Pd0.__write_next_bytes">
+<span class="sig-name descname"><span class="pre">__write_next_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyplume.pd0.pd0_decoder.Pd0.__write_next_bytes" title="Link to this definition"></a></dt>
+<dd><p>Writes data to a file in a specified byte format.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">write_pd0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#Pd0.write_pd0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.pd0_decoder.config_parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.pd0_decoder.</span></span><span class="sig-name descname"><span class="pre">config_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">en</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/pd0_decoder.html#config_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.pd0_decoder.config_parameters" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pyplume.pd0.plotting">
+<span id="pyplume-pd0-plotting-module"></span><h2>pyplume.pd0.plotting module<a class="headerlink" href="#module-pyplume.pd0.plotting" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.plotting.</span></span><span class="sig-name descname"><span class="pre">plotting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting.active_mask_flood_plot">
+<span class="sig-name descname"><span class="pre">active_mask_flood_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting.active_mask_flood_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting.active_mask_flood_plot" title="Link to this definition"></a></dt>
+<dd><p>Generate a fencegate plot of velocity components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>object</em>) – WorkhorseADCP object.</p></li>
+<li><p><strong>plot_by</strong> (<em>str</em>) – y-axes plot method (‘bin’,’depth’).</p></li>
+<li><p><strong>start_bin</strong> (<em>int</em>) – First bin to plot. (use zero based index)</p></li>
+<li><p><strong>end_bin</strong> (<em>int</em>) – Last bin to plot.(use zero based index)</p></li>
+<li><p><strong>start_ensemble</strong> (<em>int</em>) – First ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>end_ensemble</strong> (<em>int</em>) – Last ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – plot axes title.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib figure and axes objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fig,ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting.four_beam_flood_plot">
+<span class="sig-name descname"><span class="pre">four_beam_flood_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting.four_beam_flood_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting.four_beam_flood_plot" title="Link to this definition"></a></dt>
+<dd><p>Generate a flooded color plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self._pd0</strong> (<em>object</em>) – WorkhorseADCP object.</p></li>
+<li><p><strong>plot_by</strong> (<em>str</em>) – y-axes plot method (‘bin’,’depth’).</p></li>
+<li><p><strong>start_bin</strong> (<em>int</em>) – First bin to plot. (use zero based index)</p></li>
+<li><p><strong>end_bin</strong> (<em>int</em>) – Last bin to plot.(use zero based index)</p></li>
+<li><p><strong>start_ensemble</strong> (<em>int</em>) – First ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>end_ensemble</strong> (<em>int</em>) – Last ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – plot axes title.</p></li>
+<li><p><strong>field_name</strong> (<em>str</em>) – ensemble data type (string). “ECHO INTENSITY” (default), “CORRELATION MAGNITUDE”, “PERCENT GOOD”, others in ensemble_fields</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib figure and axes objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fig,ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting.four_beam_histogram">
+<span class="sig-name descname"><span class="pre">four_beam_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting.four_beam_histogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting.four_beam_histogram" title="Link to this definition"></a></dt>
+<dd><p>Generate a histofram for ensemble data for all beams</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self._pd0</strong> (<em>object</em>) – WorkhorseADCP object.</p></li>
+<li><p><strong>start_bin</strong> (<em>int</em>) – First bin to plot. (use zero based index)</p></li>
+<li><p><strong>end_bin</strong> (<em>int</em>) – Last bin to plot.(use zero based index)</p></li>
+<li><p><strong>start_ensemble</strong> (<em>int</em>) – First ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>end_ensemble</strong> (<em>int</em>) – Last ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – plot axes title.</p></li>
+<li><p><strong>field_name</strong> (<em>str</em>) – ensemble data type (string). “ECHO INTENSITY” (default), “CORRELATION MAGNITUDE”, “PERCENT GOOD”, others in ensemble_fields</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib figure and axes objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fig,ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting.four_beam_mesh_plot">
+<span class="sig-name descname"><span class="pre">four_beam_mesh_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting.four_beam_mesh_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting.four_beam_mesh_plot" title="Link to this definition"></a></dt>
+<dd><p>Generate a flooded color plots of correlation magnitude</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self._pd0</strong> (<em>object</em>) – WorkhorseADCP object.</p></li>
+<li><p><strong>plot_by</strong> (<em>str</em>) – y-axes plot method (‘bin’,’depth’).</p></li>
+<li><p><strong>start_bin</strong> (<em>int</em>) – First bin to plot. (use zero based index)</p></li>
+<li><p><strong>end_bin</strong> (<em>int</em>) – Last bin to plot.(use zero based index)</p></li>
+<li><p><strong>start_ensemble</strong> (<em>int</em>) – First ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>end_ensemble</strong> (<em>int</em>) – Last ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – plot axes title.</p></li>
+<li><p><strong>field_name</strong> (<em>str</em>) – ensemble data type (string). “ECHO INTENSITY” (default), “CORRELATION MAGNITUDE”, “PERCENT GOOD”, others in ensemble_fields</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib figure and axes objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fig,ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting.progressive_vector_plot">
+<span class="sig-name descname"><span class="pre">progressive_vector_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting.progressive_vector_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting.progressive_vector_plot" title="Link to this definition"></a></dt>
+<dd><p>Generate a progressive vector plot from the WorkhorseADCP class object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>object</em>) – WorkhorseADCP object.</p></li>
+<li><p><strong>color_by</strong> (<em>str</em>) – Coloring method (‘bin’,’velocity’,’month’).</p></li>
+<li><p><strong>start_bin</strong> (<em>int</em>) – First bin to plot. (use zero based index)</p></li>
+<li><p><strong>end_bin</strong> (<em>int</em>) – Last bin to plot.(use zero based index)</p></li>
+<li><p><strong>start_ensemble</strong> (<em>int</em>) – First ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>end_ensemble</strong> (<em>int</em>) – Last ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – plot axes title.</p></li>
+<li><p><strong>ax</strong> (<em>object</em><em>,</em><em>optional</em>) – axes object to plot to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib figure and axes objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fig,ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting.single_beam_flood_plot">
+<span class="sig-name descname"><span class="pre">single_beam_flood_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting.single_beam_flood_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting.single_beam_flood_plot" title="Link to this definition"></a></dt>
+<dd><p>Generate a fencegate plot of ensemble data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self._pd0</strong> (<em>object</em>) – WorkhorseADCP object.</p></li>
+<li><p><strong>plot_by</strong> (<em>str</em>) – y-axes plot method (‘bin’,’depth’).</p></li>
+<li><p><strong>start_bin</strong> (<em>int</em>) – First bin to plot. (use zero based index)</p></li>
+<li><p><strong>end_bin</strong> (<em>int</em>) – Last bin to plot.(use zero based index)</p></li>
+<li><p><strong>start_ensemble</strong> (<em>int</em>) – First ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>end_ensemble</strong> (<em>int</em>) – Last ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – plot axes title.</p></li>
+<li><p><strong>field_name</strong> (<em>str</em>) – ensemble data type (string). “ECHO INTENSITY” (default), “CORRELATION MAGNITUDE”, “PERCENT GOOD”, others in ensemble_fields</p></li>
+<li><p><strong>beam</strong> (<em>int</em><em> or </em><em>str.</em>) – beam number to plot. if 0 or ‘average’, the beam average is returned. If none, the beam average is returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib figure and axes objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fig,ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.plotting.plotting.velocity_flood_plot">
+<span class="sig-name descname"><span class="pre">velocity_flood_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/plotting.html#plotting.velocity_flood_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.plotting.plotting.velocity_flood_plot" title="Link to this definition"></a></dt>
+<dd><p>Generate a fencegate plot of velocity components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>object</em>) – WorkhorseADCP object.</p></li>
+<li><p><strong>plot_by</strong> (<em>str</em>) – y-axes plot method (‘bin’,’depth’).</p></li>
+<li><p><strong>start_bin</strong> (<em>int</em>) – First bin to plot. (use zero based index)</p></li>
+<li><p><strong>end_bin</strong> (<em>int</em>) – Last bin to plot.(use zero based index)</p></li>
+<li><p><strong>start_ensemble</strong> (<em>int</em>) – First ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>end_ensemble</strong> (<em>int</em>) – Last ensemble to plot.(use zero based index)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – plot axes title.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib figure and axes objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fig,ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyplume.pd0.processing">
+<span id="pyplume-pd0-processing-module"></span><h2>pyplume.pd0.processing module<a class="headerlink" href="#module-pyplume.pd0.processing" title="Link to this heading"></a></h2>
+<p>Created on Fri Jul 21 15:45:10 2023</p>
+<p>&#64;author: anba</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyplume.pd0.processing.processing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyplume.pd0.processing.</span></span><span class="sig-name descname"><span class="pre">processing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/processing.html#processing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.processing.processing" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.processing.processing.append_to_ensembles">
+<span class="sig-name descname"><span class="pre">append_to_ensembles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nan_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32768</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/processing.html#processing.append_to_ensembles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.processing.processing.append_to_ensembles" title="Link to this definition"></a></dt>
+<dd><p>Format numpy array of ensemble data into a list then add to ensemble_data property of the WorkhorseADCP class.
+Input array must have dimensions of (n_beams,nbins,n_ensemles). In a typical use case, ensemble data is manipulated in
+array format, then appended to the ensemble_data property and written to a PD0 file.
+:param X: numpy array with dimensions (n_bins,n_ensembles,n_beams)
+:param title: (string) title for the formatted data when appended to the ensemble_data property of the WorkhorseADCP class object.
+:param nan_value: (int) value to use in place of nan. 32768 is default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.processing.processing.calculate_absolute_backscatter">
+<span class="sig-name descname"><span class="pre">calculate_absolute_backscatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/processing.html#processing.calculate_absolute_backscatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.processing.processing.calculate_absolute_backscatter" title="Link to this definition"></a></dt>
+<dd><p>Convert numpy array of ensemble data of echo intensity to absolute backscatter then added to ensemble_data property of the WorkhorseADCP class.</p>
+<dl class="simple">
+<dt>Optional Args:</dt><dd><p>E_r
+k_c
+C
+alpha
+P_dbw</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyplume.pd0.processing.processing.mask_bottom_track">
+<span class="sig-name descname"><span class="pre">mask_bottom_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/pd0/processing.html#processing.mask_bottom_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.pd0.processing.processing.mask_bottom_track" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyplume.pd0">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyplume.pd0" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyplume.ctd.html" class="btn btn-neutral float-left" title="pyplume.ctd package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyplume.plotting.html" class="btn btn-neutral float-right" title="pyplume.plotting package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, anba.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

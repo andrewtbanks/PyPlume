@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyplume.ptools package &mdash; pyplume  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pd0 Dataset" href="pd0%20Dataset.html" />
+    <link rel="prev" title="pyplume.pose package" href="pyplume.pose.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyplume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="API.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pyplume.html">pyplume package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pyplume.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyplume.ctd.html">pyplume.ctd package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyplume.pd0.html">pyplume.pd0 package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyplume.plotting.html">pyplume.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyplume.pose.html">pyplume.pose package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pyplume.ptools package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyplume.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pd0%20Dataset.html"><strong>Pd0 Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ctd%20Dataset.html"><strong>CTD Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pose.html"><strong>Pose</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Manager.html"><strong>Data Manager</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyplume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="API.html">API</a></li>
+          <li class="breadcrumb-item"><a href="pyplume.html">pyplume package</a></li>
+      <li class="breadcrumb-item active">pyplume.ptools package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyplume.ptools.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pyplume-ptools-package">
+<h1>pyplume.ptools package<a class="headerlink" href="#pyplume-ptools-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-pyplume.ptools.ptools">
+<span id="pyplume-ptools-ptools-module"></span><h2>pyplume.ptools.ptools module<a class="headerlink" href="#module-pyplume.ptools.ptools" title="Link to this heading"></a></h2>
+<p>Created on Tue Apr  4 14:56:11 2023</p>
+<p>&#64;author: anba</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.ABS_to_NTU">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">ABS_to_NTU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ABS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#ABS_to_NTU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.ABS_to_NTU" title="Link to this definition"></a></dt>
+<dd><p>Convert ABS to NTU using the equation 10log(SSC) = A*Backscatter + B.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ABS</strong> (<em>numpy.ndarray</em>) – Absolute backscatter values</p></li>
+<li><p><strong>A</strong> (<em>float</em>) – Coefficient A in the equation.</p></li>
+<li><p><strong>B</strong> (<em>float</em>) – Coefficient B in the equation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nephelometric Turbidity Units (NTU) calculated from ABS.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.NTU_to_SSC">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">NTU_to_SSC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NTU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#NTU_to_SSC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.NTU_to_SSC" title="Link to this definition"></a></dt>
+<dd><p>Convert NTU to SSC using equation SCC = A*NTU</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>NTU</strong> (<em>numpy.ndarray</em>) – Absorption values.</p></li>
+<li><p><strong>A</strong> (<em>float</em>) – Coefficient A in the equation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Suspended solids concentration (SSC) calcualted from NTU</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.calculate_time_overlap">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">calculate_time_overlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#calculate_time_overlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.calculate_time_overlap" title="Link to this definition"></a></dt>
+<dd><p>Calculate the overlap duration between two time intervals.</p>
+<p>Parameters:
+- start_time1: Start time of the first interval. Accepts pandas, numpy, or datetime datetimes.
+- end_time1: End time of the first interval. Accepts pandas, numpy, or datetime datetimes.
+- start_time2: Start time of the second interval. Accepts pandas, numpy, or datetime datetimes.
+- end_time2: End time of the second interval. Accepts pandas, numpy, or datetime datetimes.</p>
+<p>Returns:
+- overlap_duration (timedelta): Duration of the overlap between the two intervals.</p>
+<p>Example:
+&gt;&gt;&gt; start_time1 = “2023-01-01 08:00:00”
+&gt;&gt;&gt; end_time1 = “2023-01-01 12:00:00”
+&gt;&gt;&gt; start_time2 = “2023-01-01 10:00:00”
+&gt;&gt;&gt; end_time2 = “2023-01-01 14:00:00”
+&gt;&gt;&gt; overlap_duration = calculate_time_overlap(start_time1, end_time1, start_time2, end_time2)
+&gt;&gt;&gt; print(f”Overlap duration: {overlap_duration}”)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.configure_ADCP">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">configure_ADCP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adcp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#configure_ADCP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.configure_ADCP" title="Link to this definition"></a></dt>
+<dd><p>Configure the ADCP parameters, perform processing, and apply masking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adcp</strong> (<em>ADCP object</em>) – An instance of the ADCP class.</p></li>
+<li><p><strong>pose</strong> (<em>Pose object</em>) – Pose information of the ADCP.</p></li>
+<li><p><strong>adcp_offset</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – Offset of the ADCP from the ROV center of mass.</p></li>
+<li><p><strong>adcp_rotation</strong> (<em>float</em><em>, </em><em>optional</em>) – Rotation of the ADCP in its housing.</p></li>
+<li><p><strong>adcp_dr</strong> (<em>float</em><em>, </em><em>optional</em>) – Distance between transducer faces for the ADCP.</p></li>
+<li><p><strong>stn_thresh</strong> (<em>int</em><em>, </em><em>optional</em>) – Threshold for Signal-to-Noise Ratio masking.</p></li>
+<li><p><strong>cmag_thresh</strong> (<em>int</em><em>, </em><em>optional</em>) – Threshold for Correlation Magnitude masking.</p></li>
+<li><p><strong>abs_thresh</strong> (<em>int</em><em>, </em><em>optional</em>) – Threshold for Absolute Backscatter masking.</p></li>
+<li><p><strong>reject_first_bins</strong> (<em>list</em><em>, </em><em>optional</em>) – List of first n bins to reject (bin 1 - reject_first_bins).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The ADCP geometry is updated based on the provided pose and optional parameters.</p></li>
+<li><p>Absolute backscatter is calculated.</p></li>
+<li><p>Various masks (stn, cmag, abs_bs, bins, bottom track) are defined and applied.</p></li>
+</ul>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>configure_ADCP(adcp_instance, pose_instance, adcp_offset=my_offset, adcp_rotation=my_rotation,</dt><dd><p>adcp_dr=my_distance_range, stn_thresh=my_stn_threshold, cmag_thresh=my_cmag_threshold,
+abs_thresh=my_abs_threshold, reject_first_bins=my_reject_bins)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.configure_CTD">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">configure_CTD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_turb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssc_coeff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#configure_CTD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.configure_CTD" title="Link to this definition"></a></dt>
+<dd><p>configure a ctd sensor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ctd</strong> (<em>TYPE</em>) – DESCRIPTION.</p></li>
+<li><p><strong>Pose</strong> (<em>Pose object</em>) – pre-configured Pose object containing position and orientation data
+for the sensor.</p></li>
+<li><p><strong>orient_in</strong> (<em>TYPE</em>) – DESCRIPTION.</p></li>
+<li><p><strong>min_turbidity</strong> (<em>float</em><em>, </em><em>optional</em>) – minimium allowed turbidity value in masking</p></li>
+<li><p><strong>ssc_coeff</strong> (<em>float</em><em>, </em><em>optional</em>) – coefficient for converting Turbidity (NTU) to ssuspended solids concentration (SSC). SSC = ssc_coeff*NTU</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.find_ADCP_CTD_pairs">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">find_ADCP_CTD_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#find_ADCP_CTD_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.find_ADCP_CTD_pairs" title="Link to this definition"></a></dt>
+<dd><p>Find matched ADCP and CTD pairs based on overlapping date ranges.</p>
+<p>Parameters:
+- dm: DataManager object containing datasets named ‘ADCP’ and ‘CTD’ with ADCP and CTD DataSet objects, respectively.
+- min_overlap: Minimum number of seconds two files must overlap to be considered a match.
+- plot: bool - if True, plot the matched pairs.</p>
+<p>Returns:
+- list: List of tuples containing matched ADCP and CTD pairs (adcp, ctd).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.flatten_list">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">flatten_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#flatten_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.flatten_list" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>l</strong> (<em>list</em>) – List to flatten</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>flattened list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.gen_rot_x">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">gen_rot_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#gen_rot_x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.gen_rot_x" title="Link to this definition"></a></dt>
+<dd><p>Generate a 3*3 matrix that rotates a vector by angle theta about the x-axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<em>float</em>) – angle to rotate by.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rotation matrix (Rx).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.gen_rot_y">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">gen_rot_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#gen_rot_y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.gen_rot_y" title="Link to this definition"></a></dt>
+<dd><p>Generate a 3*3 matrix that rotates a vector by angle theta about the y-axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<em>float</em>) – angle to rotate by.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rotation matrix (Ry).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.gen_rot_z">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">gen_rot_z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#gen_rot_z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.gen_rot_z" title="Link to this definition"></a></dt>
+<dd><p>Generate a 3*3 matrix that rotates a vector by angle theta about the z-axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<em>float</em>) – angle to rotate by.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rotation matrix (Rz).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.moving_average">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">moving_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#moving_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.moving_average" title="Link to this definition"></a></dt>
+<dd><p>Calculate the moving average of a one-dimensional array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.ndarray</em>) – The input array.</p></li>
+<li><p><strong>window_size</strong> (<em>int</em>) – The size of the moving average window.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The moving average array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p># Calculate the moving average of an array ‘data’ with a window size of 3
+result = moving_average(data, window_size=3)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.moving_variance">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">moving_variance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#moving_variance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.moving_variance" title="Link to this definition"></a></dt>
+<dd><p>Calculate the moving variance of a one-dimensional array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.ndarray</em>) – The input array.</p></li>
+<li><p><strong>window_size</strong> (<em>int</em>) – The size of the moving variance window.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The moving variance array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p># Calculate the moving variance of an array ‘data’ with a window size of 3
+result = moving_variance(data, window_size=3)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.paralell_fcn">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">paralell_fcn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Processing'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#paralell_fcn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.paralell_fcn" title="Link to this definition"></a></dt>
+<dd><p>Run a function in paralell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> (<em>function to run</em>)</p></li>
+<li><p><strong>iterable</strong> (<em>inpute argument to interate over</em>)</p></li>
+<li><p><strong>taskname</strong> (<em>task label on progress bar</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of task results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.pickle_obj">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">pickle_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#pickle_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.pickle_obj" title="Link to this definition"></a></dt>
+<dd><p>Pickle an object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>Object to pickle</em>)</p></li>
+<li><p><strong>fname</strong> (<em>string</em>) – filename for pickled object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.printProgressBar">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">printProgressBar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Progress'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'█'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printEnd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#printProgressBar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.printProgressBar" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Terminal progress bar
+Args:</p>
+<blockquote>
+<div><p>iteration   - Required  : current iteration (Int)
+total       - Required  : total iterations (Int)
+taskname    - Optional  : task description (Str)
+prefix      - Optional  : prefix string (Str)
+decimals    - Optional  : positive number of decimals in percent complete (Int)
+length      - Optional  : character length of bar (Int)
+fill        - Optional  : bar fill character (Str)
+printEnd    - Optional  : end character (e.g. “</p>
+</div></blockquote>
+</div></blockquote>
+<p>“, ”
+“) (Str)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.random_sample">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">random_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#random_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.random_sample" title="Link to this definition"></a></dt>
+<dd><p>Randomly sample n elements from the given array.</p>
+<p>Parameters:
+- array: Input array.
+- n: Number of elements to sample.</p>
+<p>Returns:
+- np.ndarray: Array containing n randomly sampled elements.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.select_adcp_data">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">select_adcp_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adcp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'HAB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ECHO</span> <span class="pre">INTENSITY'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#select_adcp_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.select_adcp_data" title="Link to this definition"></a></dt>
+<dd><p>Selects data from an ADCP transect based on time or ensemble index and depth (HAB or bin).</p>
+<p>Parameters:
+- adcp (ADCP): ADCP DataSet object
+- t_select (str): Selection method for time (‘time’ or ‘ensemble’).
+- d_select (str): Selection method for depth (‘HAB’ or ‘bin’).
+- field_name (str): Name of the field to select (e.g., ‘ECHO INTENSITY’).
+- <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments based on the selection criteria.</p>
+<p>Returns:
+- t (ndarray): Array of selected time or ensemble values.
+- X (ndarray): Selected data array based on the specified criteria.
+- Z (ndarray): z-values of selected ADCP ensemble array data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.select_ctd_data">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">select_ctd_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Turbidity</span> <span class="pre">(NTU)'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#select_ctd_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.select_ctd_data" title="Link to this definition"></a></dt>
+<dd><p>Selects data from a CTD profile based on time.</p>
+<p>Parameters:
+- ctd (CTD): CTD DataSet object containing the data.
+- field_name (str): Name of the field to select (e.g., ‘Turbidity (NTU)’).</p>
+<ul class="simple">
+<li><p><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments based on the selection criteria.</p></li>
+</ul>
+<p>Returns:
+- t (ndarray): Array of selected time values.
+- turb (ndarray): Selected turbidity data array based on the specified criteria.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyplume.ptools.ptools.unpickle_obj">
+<span class="sig-prename descclassname"><span class="pre">pyplume.ptools.ptools.</span></span><span class="sig-name descname"><span class="pre">unpickle_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyplume/ptools/ptools.html#unpickle_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyplume.ptools.ptools.unpickle_obj" title="Link to this definition"></a></dt>
+<dd><p>Unpickle an object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>string</em>) – Path to pickled object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>unpickled object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyplume.ptools">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyplume.ptools" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyplume.pose.html" class="btn btn-neutral float-left" title="pyplume.pose package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pd0%20Dataset.html" class="btn btn-neutral float-right" title="Pd0 Dataset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, anba.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
