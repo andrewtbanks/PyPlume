@@ -332,7 +332,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_ensemble_rollover</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># counter for ensemble rollover (at 65,536)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_address_offsets</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># for general use across methods</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ensemble_data</span> <span class="o">=</span> <span class="p">[]</span>
-        
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="n">filepath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
  
         <span class="k">class</span> <span class="nc">metadata</span><span class="p">:</span>
             <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pd0</span><span class="p">):</span>

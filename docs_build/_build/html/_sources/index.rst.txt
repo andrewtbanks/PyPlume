@@ -22,10 +22,9 @@ A library for reading and analyzing ADCP and CTD data.
 **Installation**
 **********
 
+.. code-block:: console
 
-.. code-block:: python 
-
-    $ pip install pyplume_install
+    $ pip install pyplume-dhi
 
 
 **Getting Started**
