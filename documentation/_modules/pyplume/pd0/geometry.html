@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyplume.pd0.geometry &mdash; pyplume  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyplume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pd0%20Dataset.html"><strong>Pd0 Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ctd%20Dataset.html"><strong>CTD Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Pose.html"><strong>Pose</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Data%20Manager.html"><strong>Data Manager</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyplume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyplume.pd0.geometry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyplume.pd0.geometry</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Jul 21 15:51:57 2023</span>
+
+<span class="sd">@author: anba</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">rich</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1">#if __name__ == &#39;__main__&#39;:</span>
+<span class="c1"># sys.path.insert(1, r&#39;C:\Users\anba\Desktop\Projects\pyplume\pyplume\ptools&#39;)</span>
+<span class="c1"># import ptools</span>
+
+
+<span class="kn">from</span> <span class="nn">..ptools</span> <span class="kn">import</span> <span class="n">ptools</span>
+
+
+<div class="viewcode-block" id="geometry">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry">[docs]</a>
+<span class="k">class</span> <span class="nc">geometry</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pd0</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span> <span class="o">=</span> <span class="n">pd0</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument_depth</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># instrument height above bed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument_HAB</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># intrument height above bed</span>
+        
+        
+<div class="viewcode-block" id="geometry.get_bin_midpoints">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.get_bin_midpoints">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_bin_midpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate numpy array of bin midpoint distances in meters. </span>
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy array with dimensions (n_ensembles)  </span>
+<span class="sd">        &quot;&quot;&quot;</span>          
+        
+        <span class="c1"># if self._pd0.config.beam_facing == &#39;DOWN&#39;:</span>
+        <span class="c1">#     direction = -1</span>
+        <span class="c1"># else: direction = 1</span>
+        
+        <span class="n">beam_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">depth_cell_length</span> <span class="c1"># total length of the beam </span>
+        
+        
+        <span class="n">bin_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">bin_1_distance</span><span class="p">,</span>
+                                    <span class="n">beam_length</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">bin_1_distance</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span>
+        
+        
+            
+        
+        
+        <span class="k">return</span> <span class="n">bin_distances</span> </div>
+
+    
+<div class="viewcode-block" id="geometry.get_bin_midpoints_depth">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.get_bin_midpoints_depth">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_bin_midpoints_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate numpy array of bin midpoint depths, based on static instrument depth. </span>
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy array with dimensions (n_ensembles)  </span>
+<span class="sd">        &quot;&quot;&quot;</span>   
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;DOWN&#39;</span><span class="p">:</span>
+            <span class="n">bin_midpoints_depth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument_depth</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()</span> 
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span><span class="s1">&#39;UP&#39;</span><span class="p">:</span>
+            <span class="n">bin_midpoints_depth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument_depth</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()</span> 
+        <span class="k">return</span> <span class="n">bin_midpoints_depth</span></div>
+
+    
+<div class="viewcode-block" id="geometry.get_bin_midpoints_HAB">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.get_bin_midpoints_HAB">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_bin_midpoints_HAB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate numpy array of bin midpoint heights, based on static instrument heihgt above bed. </span>
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy array with dimensions (n_ensembles)  </span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;DOWN&#39;</span><span class="p">:</span>
+            <span class="n">bin_midpoints_HAB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument_HAB</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span><span class="s1">&#39;UP&#39;</span><span class="p">:</span>
+            <span class="n">bin_midpoints_HAB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument_HAB</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">bin_midpoints_HAB</span>         </div>
+
+    
+    
+    
+    <span class="c1"># def get_absolute_beam_midpoint_positions(self):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Calculate the absolute position of each beam, taking into account the </span>
+    <span class="c1">#     position and orientation (pitch,roll,heading) of the platform (e.g., ROV), </span>
+    <span class="c1">#     and the relative geometry of the beam (e.g.,beam angle, bin size) </span>
+ 
+ 
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     absolute_beam_midpoint_positions: list of numpy arrays</span>
+    <span class="c1">#         list of beam midpoint positions for each beam and each ensemble.  </span>
+    <span class="c1">#         Element of the list contains the array for each beam, and each array</span>
+    <span class="c1">#         has dimensions of (3,n_bins,n_ensembles)</span>
+            
+ 
+    <span class="c1">#     &quot;&quot;&quot;</span>
+        
+    <span class="c1">#     ## get position of beam midpoints for every ensemble </span>
+    <span class="c1">#     absolute_beam_midpoint_positions = []</span>
+    <span class="c1">#     X = np.empty((3,self._pd0.config.number_of_beams,self._pd0.config.number_of_cells,self._pd0.n_ensembles))</span>
+    <span class="c1">#     pose = self.pose.pose[[&#39;x&#39;,&#39;y&#39;,&#39;z&#39;]].to_numpy().T #position  </span>
+    <span class="c1">#     for b in range(self._pd0.config.number_of_beams):</span>
+    <span class="c1">#         beam = self.relative_beam_midpoint_positions[b]</span>
+    <span class="c1">#         #absolute_beam_midpoint_positions.append(np.full((3,self._pd0.config.number_of_cells,self._pd0.n_ensembles),0, dtype = float))</span>
+    <span class="c1">#         for e in range(self._pd0.n_ensembles):</span>
+                
+    <span class="c1">#             #build rotation matrix</span>
+                
+         
+    <span class="c1">#             yaw = self.pose.pose[&#39;heading&#39;].to_numpy()[e]</span>
+    <span class="c1">#             pitch = self.pose.pose[&#39;pitch&#39;].to_numpy()[e]</span>
+    <span class="c1">#             roll = self.pose.pose[&#39;roll&#39;].to_numpy()[e]</span>
+                
+    
+                
+    <span class="c1">#             # yaw   = self.orientation[2][e]</span>
+    <span class="c1">#             # pitch = self.orientation[0][e]</span>
+    <span class="c1">#             # roll  = self.orientation[1][e]</span>
+    <span class="c1">#             R = np.dot(ptools.gen_rot_x(roll),ptools.gen_rot_z(yaw).dot(ptools.gen_rot_y(pitch)))</span>
+    <span class="c1">#             Xp = np.add(pose[:,e],beam.T.dot(R)).T</span>
+    <span class="c1">#             X[:,b,:,e] = Xp#np.add(pos[:,e],beam.T).T        </span>
+    <span class="c1">#     #% apply masks </span>
+    <span class="c1">#     # X = np.empty((self-mask(.config.number_of_beams,self.config.number_of_cells,self.n_ensembles))</span>
+        
+        
+    <span class="c1">#     X[0] = self._pd0.mask.apply_masks(X[0])</span>
+    <span class="c1">#     X[1] = self._pd0.mask.apply_masks(X[1])</span>
+    <span class="c1">#     X[2] = self._pd0.mask.apply_masks(X[2])</span>
+        
+    <span class="c1">#     return X    </span>
+    
+   
+        
+
+        
+<span class="c1">############ Set Functions ####################################################</span>
+
+
+
+<div class="viewcode-block" id="geometry.set_pose">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.set_pose">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Pose</span><span class="p">,</span><span class="n">update_orientation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define the instrument pose (position and orientation) with a </span>
+<span class="sd">        Pose object. Makes a cope of the pose object and stores it under </span>
+<span class="sd">        ctd.geometry.Pose</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Pose : Pose</span>
+<span class="sd">            Pose object containing position and orientation information.</span>
+<span class="sd">        update_orientation : bool, optional </span>
+<span class="sd">            If True, the adcp orientation (from internal gyroscope) will be </span>
+<span class="sd">            used as the pose orientation (pitch, roll, and heading/yaw)</span>
+<span class="sd">    </span>
+<span class="sd">        method : &#39;nearest&#39;, &#39;ffill&#39;,&#39;bfill&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        **kwargs to send to pd.DataFrame.reindex</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># copy input object and Resample the input timeseries to the ADCP ensemble timesteps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">Pose</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">resample_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">(),</span><span class="n">kwargs</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">update_orientation</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;pitch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_sensor_pitch</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;roll&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_sensor_roll</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;heading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_sensor_heading</span><span class="p">()</span></div>
+
+            
+            
+        
+            
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    <span class="c1"># def set_sensor_orientation(self,**kwargs):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Set the orientation data for the sensor. Accepts input orientation</span>
+    <span class="c1">#     timeseries, and assigns instrument position based on the closest position </span>
+    <span class="c1">#     timestamp to each ensemble timestamp. All orientations are in degrees, </span>
+    <span class="c1">#     with pitch and roll ranging[-180,179.99],and heading ranging from [0,359.99] </span>
+        
+        
+    
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     orient_in : (optional) pandas dataframe containing a timeseries of roll,pitch,heading </span>
+    <span class="c1">#             data corresponding to the orientation of the instrument. Must have </span>
+    <span class="c1">#             columns named &#39;pitch&#39;, &#39;roll&#39; and &#39;heading&#39;. Index must be a pandas </span>
+    <span class="c1">#             timestamp. If not specified, then the onboard gyroscope and compass data </span>
+    <span class="c1">#             (from the variable headers) will be used. </span>
+    
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     None.</span>
+    
+    <span class="c1">#     &quot;&quot;&quot;</span>
+        
+    <span class="c1">#     self.orientation = np.full((3,self._pd0.n_ensembles),np.nan)</span>
+        
+        
+    <span class="c1">#     orient_in = kwargs.pop(&#39;orient_in&#39;,None)</span>
+        
+    <span class="c1">#     #if kwargs.get(&#39;orient_in&#39;):</span>
+    <span class="c1">#     if type(orient_in) == type(None):</span>
+    <span class="c1">#         print(&#39;using sensor data&#39;)</span>
+    <span class="c1">#         self.orientation[0,:] = self._pd0.get_sensor_pitch()</span>
+    <span class="c1">#         self.orientation[1,:] = self._pd0.get_sensor_roll()</span>
+    <span class="c1">#         self.orientation[2,:] = self._pd0.get_sensor_heading()</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         et = self._pd0.get_ensemble_datetimes() # ensemble times</span>
+    <span class="c1">#         for i,etime in enumerate(et):</span>
+    <span class="c1">#             index = orient_in.index.get_indexer([etime], method=&#39;ffill&#39;)[0] # index of nearest input positon to the ensemble timestamp</span>
+    <span class="c1">#             self.orientation[0,i] = orient_in.iloc[index].pitch</span>
+    <span class="c1">#             self.orientation[1,i] = orient_in.iloc[index].roll</span>
+    <span class="c1">#             self.orientation[2,i] = orient_in.iloc[index].heading </span>
+
+            
+        
+    <span class="c1"># def set_sensor_position(self,pos_in):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Set the position data for the sensor. Accepts input position timeseries,</span>
+    <span class="c1">#     and assigns instrument position based on the closest position timestamp to</span>
+    <span class="c1">#     each ensemble timestamp. </span>
+    
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     pos_in : pandas dataframe</span>
+    <span class="c1">#         containing a timeseries of x,y,z data corresponding to the position of </span>
+    <span class="c1">#         the instrument. Must have columns named &#39;x&#39;, &#39;y&#39; and &#39;z&#39;. Index must be</span>
+    <span class="c1">#         a pandas timestamp. </span>
+            
+    
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     None.</span>
+    
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     et = self._pd0.get_ensemble_datetimes() # ensemble times</span>
+    <span class="c1">#     self.position  = np.full((3,self._pd0.n_ensembles),np.nan)</span>
+    <span class="c1">#     for i,etime in enumerate(et):</span>
+    <span class="c1">#         index = pos_in.index.get_indexer([etime], method=&#39;ffill&#39;)[0] # index of nearest input positon to the ensembel timestamp</span>
+
+    <span class="c1">#         self.position[0,i] = pos_in.iloc[index].x</span>
+    <span class="c1">#         self.position[1,i] = pos_in.iloc[index].y</span>
+    <span class="c1">#         self.position[2,i] = pos_in.iloc[index].z     </span>
+        
+                    
+<div class="viewcode-block" id="geometry.calculate_beam_geometry">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.calculate_beam_geometry">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate_beam_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">dr</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">        calculate the relative beam midpoint position for every ensemble (accounting for sensor orientation and platform orientation)</span>
+<span class="sd">        calculate the true bottom track distance (accounting for orientation). </span>
+<span class="sd">        calculate the absolute position of each bin/ensemble in depth and relative to bottom track</span>
+<span class="sd">        </span>
+<span class="sd">        ----------</span>
+<span class="sd">        rotation : float, optional</span>
+<span class="sd">            Orientation of the self._pd0. This is the number of degrees clockwise </span>
+<span class="sd">            from the forward direction of the mounting platform. (E.g., the bow</span>
+<span class="sd">            of the vessel). The default is 0.</span>
+<span class="sd">        offset : numpy array, optional</span>
+<span class="sd">            x,y,z offsets for the instrument. This offset </span>
+<span class="sd">            should be the relative distance between the position measuremet</span>
+<span class="sd">            (e.g., from the vessel GPS) and the center of the ADCP transducer </span>
+<span class="sd">            face.The default is (0,0,0).</span>
+<span class="sd">        dr : float, optional</span>
+<span class="sd">            radial distance from the center of the face of the ADCP to the center </span>
+<span class="sd">            of the transdecer faces. The default is 0.1.</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+<span class="sd">    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># offset = (0,0,0)</span>
+        <span class="c1"># dr = 0.1</span>
+        <span class="c1"># rotation = 0</span>
+        <span class="c1">## calculate the orientation of the beam origins (e.g., orientation on face of ADCP) including the rotation of the insttuymet. (rotation of 0 means beam 3 is pointing &quot;forwards&quot; - in the positive x direction)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_z</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;DOWN&#39;</span><span class="p">:</span>
+            <span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span><span class="c1"># position of each beam relative to the center of the face of the instrument</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;UP&#39;</span><span class="p">:</span>
+            <span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span><span class="c1"># position of each beam relative to the center of the face of the instrument</span>
+        
+        <span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="n">relative_beam_origin</span><span class="p">)</span>  <span class="c1"># offset origin to be relative to the center of mass of the position measurement</span>
+        <span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="n">relative_beam_origin</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="c1"># rotate the origin points - assums that positive y direction is forward (beam 3) </span>
+        
+        <span class="c1">#%</span>
+        <span class="c1">#% build an array containing the unrotated beam vectors (at this point they will all be pointing directly downward)</span>
+        <span class="n">relative_beam_midpoint_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+        
+        
+        <span class="c1">#X = np.empty((3,self._pd0.config.number_of_beams,self._pd0.config.number_of_cells,self._pd0.n_ensembles))</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,:],</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,:,:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">X_hab</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+        
+        
+       
+        <span class="n">bt_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+        
+        <span class="n">bt_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">get_bottom_track</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">bt_range</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+            <span class="c1"># bottom track range for each beam and ensemble </span>
+            <span class="n">bt_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">bt_range</span>
+    
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">):</span>
+            
+            
+            <span class="c1"># array holding beam midpoints coordinates </span>
+            <span class="n">beam_midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">))[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            
+            <span class="c1">## overwrite z-offset coordiate with HAB(measurement doesnt care about sensor z-offset at origin)</span>
+            <span class="c1">#beam_midpoints[2] = Z[beam_no]</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;DOWN&#39;</span><span class="p">:</span>
+                <span class="n">beam_midpoints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#+ 1.18</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">beam_midpoints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="c1"># #% rotation matricies for </span>
+            <span class="n">theta_beam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_angle</span>
+            <span class="n">Ry_cw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_y</span><span class="p">(</span><span class="o">-</span><span class="n">theta_beam</span><span class="p">)</span>
+            <span class="n">Rx_cw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_x</span><span class="p">(</span><span class="o">-</span><span class="n">theta_beam</span><span class="p">)</span>
+            <span class="n">Ry_ccw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_y</span><span class="p">(</span><span class="n">theta_beam</span><span class="p">)</span>
+            <span class="n">Rx_ccw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_x</span><span class="p">(</span><span class="n">theta_beam</span><span class="p">)</span>   
+            
+            <span class="c1">#% rotate the bottom track vectors </span>
+            
+            <span class="c1">#% account for beam geometry</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ry_cw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beam_midpoints</span><span class="p">[:,:,</span><span class="n">e</span><span class="p">])</span>
+                    <span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ry_cw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="mi">1</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ry_ccw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beam_midpoints</span><span class="p">[:,:,</span><span class="n">e</span><span class="p">])</span>
+                    <span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ry_ccw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="mi">2</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rx_ccw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beam_midpoints</span><span class="p">[:,:,</span><span class="n">e</span><span class="p">])</span>
+                    <span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rx_ccw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span> 
+                    <span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="mi">3</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rx_cw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beam_midpoints</span><span class="p">[:,:,</span><span class="n">e</span><span class="p">])</span>  
+                    <span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rx_cw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">])</span>
+                   
+                <span class="n">yaw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;heading&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="n">e</span><span class="p">]</span>
+                <span class="n">pitch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;pitch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="n">e</span><span class="p">]</span>
+                <span class="n">roll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;roll&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="n">e</span><span class="p">]</span>
+                
+                <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_x</span><span class="p">(</span><span class="n">roll</span><span class="p">),</span><span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_z</span><span class="p">(</span><span class="n">yaw</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_y</span><span class="p">(</span><span class="n">pitch</span><span class="p">)))</span>
+                <span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+ 
+                <span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">bt_vec</span><span class="p">[:,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+                
+                
+                <span class="c1">#Xp =np.repeat(self.pose.pose[[&#39;x&#39;,&#39;y&#39;,&#39;z&#39;]].to_numpy().T[:,e])[:, np.newaxis], self._pd0.n_ensembles, axis=1) relative_beam_midpoint_positions[:,b,:,e]</span>
+                
+                <span class="n">X</span><span class="p">[:,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span>
+                  
+                <span class="n">X_hab</span><span class="p">[:,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="n">relative_beam_midpoint_positions</span><span class="p">[:,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span>
+                <span class="n">X_hab</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="n">b</span><span class="p">,:,</span><span class="n">e</span><span class="p">]</span> <span class="o">-</span> <span class="n">bt_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">]</span> 
+                
+                
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span> <span class="o">=</span> <span class="n">relative_beam_midpoint_positions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corrected_bottom_track</span> <span class="o">=</span> <span class="n">bt_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        
+        <span class="n">instrument_range</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">bin_1_distance</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">depth_cell_length</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span>
+        <span class="c1">#self.corrected_bottom_track[self.corrected_bottom_track&gt;instrument_range] = np.nan #reject bad data, replace with unrotated values </span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">corrected_bottom_track</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">corrected_bottom_track</span><span class="o">&gt;</span><span class="n">instrument_range</span><span class="p">]</span> <span class="o">=</span> <span class="n">bt_range</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">corrected_bottom_track</span><span class="o">&gt;</span><span class="n">instrument_range</span><span class="p">]</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">absolute_beam_midpoint_positions</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absolute_beam_midpoint_positions_HAB</span> <span class="o">=</span> <span class="n">X_hab</span></div>
+
+        <span class="c1">#return X,X_hab,bt_vec[2]</span>
+        
+<div class="viewcode-block" id="geometry.get_relative_beam_midpoint_positions">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.get_relative_beam_midpoint_positions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_relative_beam_midpoint_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        retrieve absolute x,y,z position of each bin and ensemble with masks applied. </span>
+<span class="sd"> </span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        absolute_beam_midpoint_positions: list of numpy arrays</span>
+<span class="sd">            list of beam midpoint positions for each beam and each ensemble.  </span>
+<span class="sd">            Element of the list contains the array for each beam, and each array</span>
+<span class="sd">            has dimensions of (3,n_bins,n_ensembles)</span>
+<span class="sd">            </span>
+<span class="sd"> </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span>
+        <span class="k">if</span> <span class="n">mask</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            
+        <span class="k">return</span> <span class="n">X</span> </div>
+
+        
+<div class="viewcode-block" id="geometry.get_absolute_beam_midpoint_positions">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.get_absolute_beam_midpoint_positions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_absolute_beam_midpoint_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        retrieve absolute x,y,z position of each bin and ensemble with masks applied. </span>
+<span class="sd"> </span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        absolute_beam_midpoint_positions: list of numpy arrays</span>
+<span class="sd">            list of beam midpoint positions for each beam and each ensemble.  </span>
+<span class="sd">            Element of the list contains the array for each beam, and each array</span>
+<span class="sd">            has dimensions of (3,n_bins,n_ensembles)</span>
+<span class="sd">            </span>
+<span class="sd"> </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">absolute_beam_midpoint_positions</span>
+        <span class="k">if</span> <span class="n">mask</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            
+        <span class="k">return</span> <span class="n">X</span> </div>
+
+    
+<div class="viewcode-block" id="geometry.get_absolute_beam_midpoint_positions_HAB">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.get_absolute_beam_midpoint_positions_HAB">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_absolute_beam_midpoint_positions_HAB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        retrieve absolute x,y,z position of each bin and ensemble with masks applied. </span>
+<span class="sd"> </span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        absolute_beam_midpoint_positions: list of numpy arrays</span>
+<span class="sd">            list of beam midpoint positions for each beam and each ensemble.  </span>
+<span class="sd">            Element of the list contains the array for each beam, and each array</span>
+<span class="sd">            has dimensions of (3,n_bins,n_ensembles)</span>
+<span class="sd">            </span>
+<span class="sd"> </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">absolute_beam_midpoint_positions_HAB</span>
+        <span class="k">if</span> <span class="n">mask</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">apply_masks</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            
+        <span class="k">return</span> <span class="n">X</span> </div>
+
+<div class="viewcode-block" id="geometry.get_corrected_bottom_track">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.get_corrected_bottom_track">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_corrected_bottom_track</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        retrieve absolute x,y,z position of each bin and ensemble with masks applied. </span>
+<span class="sd"> </span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        absolute_beam_midpoint_positions: list of numpy arrays</span>
+<span class="sd">            list of beam midpoint positions for each beam and each ensemble.  </span>
+<span class="sd">            Element of the list contains the array for each beam, and each array</span>
+<span class="sd">            has dimensions of (3,n_bins,n_ensembles)</span>
+<span class="sd">            </span>
+<span class="sd"> </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrected_bottom_track</span>
+            
+        <span class="k">return</span> <span class="n">X</span> </div>
+
+    
+<div class="viewcode-block" id="geometry.set_beam_relative_geometry">
+<a class="viewcode-back" href="../../../pyplume.pd0.html#pyplume.pd0.geometry.geometry.set_beam_relative_geometry">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_beam_relative_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">dr</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the x,y,z position of each bin in the coordinate reference </span>
+<span class="sd">        frame of either the the position measurement for the instrument. Accounts </span>
+<span class="sd">        for instrument beam angle (e.g., 20 deg) in x-z and y-z planes. Positions are in the reference</span>
+<span class="sd">        frame of the instrument position measurement.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rotation : float, optional</span>
+<span class="sd">            Orientation of the ADCP. This is the number of degrees clockwise </span>
+<span class="sd">            from the forward direction of the mounting platform. (E.g., the bow</span>
+<span class="sd">            of the vessel). The default is 0.</span>
+<span class="sd">        offset : numpy array, optional</span>
+<span class="sd">            x,y,z offsets for the instrument. This offset </span>
+<span class="sd">            should be the relative distance between the position measuremet</span>
+<span class="sd">            (e.g., from the vessel GPS) and the center of the ADCP transducer </span>
+<span class="sd">            face.The default is (0,0,0).</span>
+<span class="sd">        dr : float, optional</span>
+<span class="sd">            radial distance from the center of the face of the ADCP to the center </span>
+<span class="sd">            of the transdecer faces. The default is 0.1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    
+        <span class="c1"># See WorkHorseCommands and Ouput Data Format page 53</span>
+        <span class="c1"># rotation = 45</span>
+        <span class="c1"># offset = adcp_offset</span>
+        
+        <span class="c1"># dr = 0.1 # distance from center of the unit to the center of each transducer face</span>
+        
+        
+        <span class="c1">## calculate the orientation of the beam origins (e.g., orientation on face of ADCP) including the rotation of the insttuymet. (rotation of 0 means beam 3 is pointing &quot;forwards&quot; - in the positive x direction)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_z</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;DOWN&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span><span class="c1"># position of each beam relative to the center of the face of the instrument</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;UP&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">dr</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span><span class="c1"># position of each beam relative to the center of the face of the instrument</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_origin</span><span class="p">)</span>  <span class="c1"># offset origin to be relative to the center of mass of the position measurement</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_origin</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="c1"># rotate the origin points - assums that positive y direction is forward (beam 3) </span>
+        
+        
+        
+        <span class="c1">#% build an array containing the unrotated beam vectors (at this point they will all be pointing directly downward)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">):</span>
+            <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_origin</span><span class="p">[:,</span><span class="n">b</span><span class="p">]</span>
+            <span class="n">beam_midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd0</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_facing</span> <span class="o">==</span> <span class="s1">&#39;DOWN&#39;</span><span class="p">:</span>
+                <span class="n">beam_midpoints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">beam_midpoints</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beam_midpoints</span><span class="p">)</span>
+        
+        
+        <span class="c1"># rotate each beam about its origin point by theta_beam. </span>
+        
+        <span class="c1">#theta_beam = self._pd0.ensemble_data[0][&#39;FIXED LEADER&#39;][&#39;BEAM ANGLE&#39;]</span>
+        <span class="n">theta_beam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">beam_angle</span>
+ 
+        <span class="n">Ry_cw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_y</span><span class="p">(</span><span class="o">-</span><span class="n">theta_beam</span><span class="p">)</span> <span class="c1"># rotate clockwise about the y-axis</span>
+        <span class="n">Rx_cw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_x</span><span class="p">(</span><span class="o">-</span><span class="n">theta_beam</span><span class="p">)</span> <span class="c1"># rotate clockwise about the x-axis</span>
+        <span class="n">Ry_ccw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_y</span><span class="p">(</span><span class="n">theta_beam</span><span class="p">)</span> <span class="c1"># rotate counter-clockwise about the y-axis</span>
+        <span class="n">Rx_ccw</span> <span class="o">=</span> <span class="n">ptools</span><span class="o">.</span><span class="n">gen_rot_x</span><span class="p">(</span><span class="n">theta_beam</span><span class="p">)</span> <span class="c1"># rotate counter-clockwise about the y-axis</span>
+        
+        <span class="c1"># self.relative_beam_midpoint_positions[0] = Rx_cw.dot(Ry_cw.dot(self.relative_beam_midpoint_positions[0]))</span>
+        <span class="c1"># self.relative_beam_midpoint_positions[1] = Rx_ccw.dot(Ry_ccw.dot(self.relative_beam_midpoint_positions[1]))</span>
+        <span class="c1"># self.relative_beam_midpoint_positions[2] = Rx_ccw.dot(Ry_cw.dot(self.relative_beam_midpoint_positions[2]))</span>
+        <span class="c1"># self.relative_beam_midpoint_positions[3] = Rx_cw.dot(Ry_ccw.dot(self.relative_beam_midpoint_positions[3]))     </span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ry_cw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ry_ccw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rx_ccw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rx_cw</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_beam_midpoint_positions</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>  </div>
+</div>
+
+        
+        
+        
+        
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, anba.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

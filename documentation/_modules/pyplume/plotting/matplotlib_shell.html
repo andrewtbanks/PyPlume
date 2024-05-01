@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyplume.plotting.matplotlib_shell &mdash; pyplume  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyplume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pd0%20Dataset.html"><strong>Pd0 Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ctd%20Dataset.html"><strong>CTD Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Pose.html"><strong>Pose</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Data%20Manager.html"><strong>Data Manager</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyplume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyplume.plotting.matplotlib_shell</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyplume.plotting.matplotlib_shell</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">cycler</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patheffects</span> <span class="k">as</span> <span class="nn">mpl_path_effects</span>
+
+<span class="c1">#class plotting:</span>
+    
+<span class="n">dhi_blue1</span> <span class="o">=</span> <span class="s1">&#39;#04426e&#39;</span>
+<span class="n">dhi_blue2</span> <span class="o">=</span> <span class="s1">&#39;#4d9ab3&#39;</span>
+<span class="n">dhi_blue3</span> <span class="o">=</span> <span class="s1">&#39;#0493b2&#39;</span>
+<span class="n">dhi_blue4</span> <span class="o">=</span> <span class="s1">&#39;#c3dde5&#39;</span>
+<span class="n">dhi_green1</span> <span class="o">=</span> <span class="s1">&#39;#01be62&#39;</span>
+<span class="n">dhi_green2</span> <span class="o">=</span> <span class="s1">&#39;#00b591&#39;</span>
+<span class="n">dhi_green3</span> <span class="o">=</span> <span class="s1">&#39;#6ad6af&#39;</span>
+
+
+<span class="n">dhi_gray1</span> <span class="o">=</span> <span class="s1">&#39;#c4c4c4&#39;</span>
+<span class="n">dhi_gray2</span> <span class="o">=</span> <span class="s1">&#39;#8b8b8c&#39;</span>
+<span class="n">dhi_gray3</span> <span class="o">=</span> <span class="s1">&#39;#686c6e&#39;</span>
+
+<span class="n">dhi_red1</span><span class="o">=</span> <span class="s1">&#39;#c81f00&#39;</span>
+<span class="n">dhi_red2</span> <span class="o">=</span> <span class="s1">&#39;#ac1817&#39;</span>
+
+<span class="n">dhi_yellow1</span> <span class="o">=</span> <span class="s1">&#39;#ffbb3c&#39;</span>
+<span class="n">dhi_yellow2</span> <span class="o">=</span> <span class="s1">&#39;#ebd844&#39;</span>
+
+<span class="n">dhi_orange1</span> <span class="o">=</span> <span class="s1">&#39;#ec8833&#39;</span>
+<span class="n">dhi_orange2</span> <span class="o">=</span> <span class="s1">&#39;#d3741c&#39;</span>
+
+
+<div class="viewcode-block" id="dhi_colors">
+<a class="viewcode-back" href="../../../pyplume.plotting.html#pyplume.plotting.matplotlib_shell.dhi_colors">[docs]</a>
+<span class="k">class</span> <span class="nc">dhi_colors</span><span class="p">:</span>
+    <span class="n">blue1</span> <span class="o">=</span> <span class="s1">&#39;#04426e&#39;</span>
+    <span class="n">blue2</span> <span class="o">=</span> <span class="s1">&#39;#4d9ab3&#39;</span>
+    <span class="n">blue3</span> <span class="o">=</span> <span class="s1">&#39;#0493b2&#39;</span>
+    <span class="n">blue4</span> <span class="o">=</span> <span class="s1">&#39;#c3dde5&#39;</span>
+    
+    <span class="n">green1</span> <span class="o">=</span> <span class="s1">&#39;#93c47d&#39;</span> <span class="c1">#&#39;#01be62&#39;</span>
+    <span class="n">green2</span> <span class="o">=</span> <span class="s1">&#39;#00b591&#39;</span>
+    <span class="n">green3</span> <span class="o">=</span> <span class="s1">&#39;#6ad6af&#39;</span>
+    
+    <span class="n">gray1</span> <span class="o">=</span> <span class="s1">&#39;#c4c4c4&#39;</span>
+    <span class="n">gray2</span> <span class="o">=</span> <span class="s1">&#39;#8b8b8c&#39;</span>
+    <span class="n">gray3</span> <span class="o">=</span> <span class="s1">&#39;#686c6e&#39;</span>
+
+    <span class="n">red1</span><span class="o">=</span> <span class="s1">&#39;#c81f00&#39;</span>
+    <span class="n">red2</span> <span class="o">=</span> <span class="s1">&#39;#ac1817&#39;</span>
+
+    <span class="n">yellow1</span> <span class="o">=</span> <span class="s1">&#39;#ffbb3c&#39;</span>
+    <span class="n">dhi_yellow2</span> <span class="o">=</span> <span class="s1">&#39;#ebd844&#39;</span>
+
+    <span class="n">orange1</span> <span class="o">=</span> <span class="s1">&#39;#ec8833&#39;</span>
+    <span class="n">orange2</span> <span class="o">=</span> <span class="s1">&#39;#d3741c&#39;</span></div>
+
+    
+    
+    
+    
+
+
+
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;lines.linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;lines.color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+<span class="c1">#mpl.rcParams[&#39;axes.grid&#39;] = True</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;patch.edgecolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.grid.which&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;major&#39;</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;lines.markersize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.labelright&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.labeltop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.major.right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.major.top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="c1"># #mpl.rcParams[&#39;text.latex.preamble&#39;]=[r&quot;\usepackage{lmodern}&quot;]</span>
+
+<span class="c1"># params = {&#39;text.usetex&#39; : True,</span>
+<span class="c1">#           &#39;font.size&#39; : 11,</span>
+<span class="c1">#           &#39;font.family&#39; : &#39;lmodern&#39;,</span>
+<span class="c1">#           &#39;text.latex.unicode&#39;: True,</span>
+<span class="c1">#           }</span>
+<span class="c1"># mpl.rcParams.update(params) </span>
+
+<span class="c1"># mpl.rcParams[&#39;axes.titlepad&#39;]: 250</span>
+<span class="c1"># mpl.rcParams[&#39;axes.labelpad&#39;]: 250</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.labelweight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.fontsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.framealpha&#39;</span><span class="p">]</span><span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.titlesize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.titleweight&#39;</span><span class="p">]</span> <span class="o">=</span><span class="s1">&#39;normal&#39;</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span><span class="s1">&#39;TImes New Roman&#39;</span>
+<span class="c1">#rcParams[&#39;font.family&#39;] = &#39;Georgia&#39;</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">13</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.25</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.major.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.minor.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.major.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.minor.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="mf">300.0</span>
+
+
+
+<span class="c1"># blues  = [&#39;#9ecae1&#39;,&#39;#6baed6&#39;,&#39;#4292c6&#39;,&#39;#2171b5&#39;]#,&#39;#08519c&#39;]</span>
+<span class="c1"># greens = [&#39;#c7e9c0&#39;,&#39;#a1d99b&#39;,&#39;#74c476&#39;,&#39;#41ab5d&#39;]#,&#39;#238b45&#39;]</span>
+<span class="c1"># colors = []</span>
+<span class="c1"># for i in range(len(blues)):</span>
+<span class="c1">#     colors.append(blues[-(i+1)])</span>
+<span class="c1">#     colors.append(greens[-(i+1)])</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">[</span><span class="s1">&#39;#283747&#39;</span><span class="p">,</span><span class="s1">&#39;#0051a2&#39;</span><span class="p">,</span> <span class="s1">&#39;#41ab5d&#39;</span><span class="p">,</span> <span class="s1">&#39;#feb24c&#39;</span><span class="p">,</span> <span class="s1">&#39;#93003a&#39;</span><span class="p">]</span>
+<span class="n">line_style</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="p">[</span><span class="s1">&#39;--&#39;</span><span class="p">]</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycler</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span><span class="n">colors</span><span class="p">)</span> <span class="o">+</span><span class="n">cycler</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="s1">&#39;linestyle&#39;</span><span class="p">,</span><span class="n">line_style</span><span class="p">)</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">to_rgba</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">ColorConverter</span><span class="p">()</span><span class="o">.</span><span class="n">to_rgba</span><span class="c1">#</span>
+<span class="n">color_list</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]):</span>
+    <span class="n">color_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="p">))</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycler</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color_list</span><span class="p">)</span>
+
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.direction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;in&#39;</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.direction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;in&#39;</span>
+
+
+    
+
+<div class="viewcode-block" id="subplots">
+<a class="viewcode-back" href="../../../pyplume.plotting.html#pyplume.plotting.matplotlib_shell.subplots">[docs]</a>
+<span class="k">def</span> <span class="nf">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;figheight&#39;</span><span class="p">):</span> <span class="n">figheight</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;figheight&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">figheight</span> <span class="o">=</span> <span class="mf">4.25</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="mi">5</span><span class="o">**</span><span class="mf">.5</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;figwidth&#39;</span><span class="p">):</span> <span class="n">figwidth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;figwidth&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">figwidth</span> <span class="o">=</span> <span class="n">figheight</span>
+    
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nrow&#39;</span><span class="p">):</span> <span class="n">nrow</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nrow&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ncol&#39;</span><span class="p">):</span> <span class="n">ncol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ncol&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">1</span>    
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sharex&#39;</span><span class="p">):</span> <span class="n">sharex</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sharex&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">False</span>   
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sharey&#39;</span><span class="p">):</span> <span class="n">sharey</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sharey&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">sharey</span> <span class="o">=</span> <span class="kc">False</span> 
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width_ratios&#39;</span><span class="p">):</span> <span class="n">width_ratios</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width_ratios&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">width_ratios</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">ncol</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;height_ratios&#39;</span><span class="p">):</span> <span class="n">height_ratios</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;height_ratios&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">height_ratios</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nrow</span>   
+    
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;watermark_text&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="n">watermark_text</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;watermark_text&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">watermark_text</span> <span class="o">=</span> <span class="s1">&#39;PRELIMINARY RESULTS </span><span class="se">\n</span><span class="s1"> INTERNAL CIRCULATION ONLY&#39;</span>
+    
+    
+    
+    <span class="n">fig</span><span class="p">,</span><span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">figwidth</span><span class="p">,</span><span class="n">figheight</span><span class="p">),</span>
+                           <span class="n">nrows</span> <span class="o">=</span> <span class="n">nrow</span><span class="p">,</span>
+                           <span class="n">ncols</span> <span class="o">=</span> <span class="n">ncol</span><span class="p">,</span>
+                           <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width_ratios&#39;</span><span class="p">:</span> <span class="n">width_ratios</span><span class="p">,</span>
+                                        <span class="s1">&#39;height_ratios&#39;</span><span class="p">:</span> <span class="n">height_ratios</span><span class="p">},</span>
+                           <span class="n">sharex</span> <span class="o">=</span> <span class="n">sharex</span><span class="p">,</span>
+                           <span class="n">sharey</span> <span class="o">=</span> <span class="n">sharey</span><span class="p">)</span>
+
+
+  
+    <span class="k">def</span> <span class="nf">add_watermark</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">add_date</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># add a watermark and some metadata to the axes</span>
+        <span class="n">path_effects</span><span class="o">=</span><span class="p">[</span><span class="n">mpl_path_effects</span><span class="o">.</span><span class="n">Stroke</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.035</span><span class="p">)]</span> 
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">watermark_text</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">path_effects</span> <span class="o">=</span> <span class="n">path_effects</span><span class="p">,</span><span class="n">fontname</span> <span class="o">=</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span><span class="n">zorder</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_date</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">.985</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">getlogin</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%y %H:%M&quot;</span><span class="p">),</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="s1">&#39;bold&#39;</span><span class="p">,</span><span class="n">fontname</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Arial&#39;</span><span class="p">,</span><span class="n">zorder</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span>
+    
+    
+ 
+    <span class="k">def</span> <span class="nf">set_ax_params</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+        
+            <span class="c1"># if not kwargs.get(&#39;for_production&#39;):</span>
+            <span class="c1">#     ax = add_watermark(ax)</span>
+            <span class="c1"># else: ax = add_watermark(axs)</span>
+            
+            <span class="c1"># ax.xaxis.set_major_locator(mpl.ticker.AutoLocator())</span>
+            <span class="c1"># ax.yaxis.set_major_locator(mpl.ticker.AutoLocator())</span>
+            
+            <span class="c1"># ax.xaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())</span>
+            <span class="c1"># ax.yaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">)</span>
+        
+    
+    <span class="k">if</span> <span class="n">nrow</span><span class="o">*</span><span class="n">ncol</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span> 
+            <span class="n">set_ax_params</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+            
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">set_ax_params</span><span class="p">(</span><span class="n">axs</span><span class="p">)</span>
+            
+
+        
+                
+
+             
+       
+
+    
+    
+
+                    
+ 
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.025</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.975</span><span class="p">,</span><span class="mf">.9</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span><span class="n">axs</span></div>
+
+
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, anba.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

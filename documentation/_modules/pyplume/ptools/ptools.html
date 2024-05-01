@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyplume.ptools.ptools &mdash; pyplume  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyplume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pd0%20Dataset.html"><strong>Pd0 Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ctd%20Dataset.html"><strong>CTD Dataset</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Pose.html"><strong>Pose</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Data%20Manager.html"><strong>Data Manager</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyplume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyplume.ptools.ptools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyplume.ptools.ptools</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue Apr  4 14:56:11 2023</span>
+
+<span class="sd">@author: anba</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pathos.multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">progressbar</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">cloudpickle</span>    
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1">#%%</span>
+
+
+
+<div class="viewcode-block" id="moving_average">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.moving_average">[docs]</a>
+<span class="k">def</span> <span class="nf">moving_average</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">window_size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the moving average of a one-dimensional array.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        x (numpy.ndarray): The input array.</span>
+<span class="sd">        window_size (int): The size of the moving average window.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The moving average array.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        # Calculate the moving average of an array &#39;data&#39; with a window size of 3</span>
+<span class="sd">        result = moving_average(data, window_size=3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">window_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="moving_variance">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.moving_variance">[docs]</a>
+<span class="k">def</span> <span class="nf">moving_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">window_size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the moving variance of a one-dimensional array.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        x (numpy.ndarray): The input array.</span>
+<span class="sd">        window_size (int): The size of the moving variance window.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The moving variance array.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        # Calculate the moving variance of an array &#39;data&#39; with a window size of 3</span>
+<span class="sd">        result = moving_variance(data, window_size=3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean_centered</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">mean_centered</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">window_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span></div>
+
+
+
+
+
+<div class="viewcode-block" id="pickle_obj">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.pickle_obj">[docs]</a>
+<span class="k">def</span> <span class="nf">pickle_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">fname</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pickle an object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : Object to pickle</span>
+<span class="sd">    fname : string</span>
+<span class="sd">        filename for pickled object</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">cloudpickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">f</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="unpickle_obj">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.unpickle_obj">[docs]</a>
+<span class="k">def</span> <span class="nf">unpickle_obj</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Unpickle an object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname : string</span>
+<span class="sd">        Path to pickled object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : unpickled object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> 
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">cloudpickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="flatten_list">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.flatten_list">[docs]</a>
+<span class="k">def</span> <span class="nf">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span> <span class="c1"># flatten a list of lists</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    l : list</span>
+<span class="sd">        List to flatten</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : flattened list</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">l</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="printProgressBar">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.printProgressBar">[docs]</a>
+<span class="k">def</span> <span class="nf">printProgressBar</span> <span class="p">(</span><span class="n">iteration</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span><span class="n">taskname</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;Progress&#39;</span><span class="p">,</span> <span class="n">decimals</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;█&#39;</span><span class="p">,</span> <span class="n">printEnd</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Terminal progress bar</span>
+<span class="sd">    Args:</span>
+<span class="sd">        iteration   - Required  : current iteration (Int)</span>
+<span class="sd">        total       - Required  : total iterations (Int)</span>
+<span class="sd">        taskname    - Optional  : task description (Str)</span>
+<span class="sd">        prefix      - Optional  : prefix string (Str)</span>
+<span class="sd">        decimals    - Optional  : positive number of decimals in percent complete (Int)</span>
+<span class="sd">        length      - Optional  : character length of bar (Int)</span>
+<span class="sd">        fill        - Optional  : bar fill character (Str)</span>
+<span class="sd">        printEnd    - Optional  : end character (e.g. &quot;\r&quot;, &quot;\r\n&quot;) (Str)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">percent</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;{0:.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decimals</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;f}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">iteration</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total</span><span class="p">)))</span>
+    <span class="n">filledLength</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">length</span> <span class="o">*</span> <span class="n">iteration</span> <span class="o">//</span> <span class="n">total</span><span class="p">)</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="n">fill</span> <span class="o">*</span> <span class="n">filledLength</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="n">filledLength</span><span class="p">)</span>
+   
+    
+    <span class="n">taskname</span> <span class="o">=</span> <span class="n">taskname</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\r</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1"> |</span><span class="si">{</span><span class="n">bar</span><span class="si">}</span><span class="s1">|</span><span class="si">{</span><span class="n">taskname</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">printEnd</span><span class="p">)</span></div>
+
+    <span class="c1"># # Print New Line on Complete</span>
+    <span class="c1"># if iteration == total: </span>
+    <span class="c1">#     print()  </span>
+        
+        
+<div class="viewcode-block" id="paralell_fcn">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.paralell_fcn">[docs]</a>
+<span class="k">def</span> <span class="nf">paralell_fcn</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">iterable</span><span class="p">,</span><span class="n">taskname</span> <span class="o">=</span> <span class="s1">&#39;Processing&#39;</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run a function in paralell</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : function to run </span>
+<span class="sd">    iterable: inpute argument to interate over</span>
+<span class="sd">    taskname: task label on progress bar</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of task results</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">cpu_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span><span class="nb">len</span><span class="p">(</span><span class="n">iterable</span><span class="p">))</span>
+    <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;Task&#39;</span><span class="c1"># &#39;_&#39;.join(taskname.split(&#39; &#39;))</span>
+    <span class="n">widgets</span> <span class="o">=</span> <span class="p">[</span><span class="n">progressbar</span><span class="o">.</span><span class="n">GranularBar</span><span class="p">(</span><span class="n">markers</span><span class="o">=</span><span class="s2">&quot; ░▒▓█&quot;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">),</span>
+                <span class="n">progressbar</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">varname</span><span class="p">)]</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="n">progressbar</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">widgets</span> <span class="o">=</span> <span class="n">widgets</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable</span><span class="p">))</span>
+    <span class="n">bar</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">taskname</span><span class="p">)</span> 
+    <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1">#printProgressBar(0, len(iterable),prefix = f&#39;Filtering&#39;, taskname= f&#39;Filtering 0%&#39;)</span>
+        
+    <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">cpu_count</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        
+        
+        <span class="c1">#results= pool.map(f,iterable)</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap_unordered</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">iterable</span><span class="p">)</span> 
+        
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tasks</span><span class="p">):</span>
+            <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            
+            
+            
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+            
+            <span class="c1">#print(r)</span>
+    <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1">#bar.update(len(iterable)) # force bar to 100%</span>
+            
+    <span class="c1"># print(&#39;\r&#39;,&#39;\n&#39;)</span>
+    <span class="c1"># print(f&#39;Execution Time: {round((time.time() - st)/60,2)} min&#39;)</span>
+    <span class="c1"># print(&#39;\r&#39;,&#39;\n&#39;)</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<div class="viewcode-block" id="gen_rot_y">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.gen_rot_y">[docs]</a>
+<span class="k">def</span> <span class="nf">gen_rot_y</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a 3*3 matrix that rotates a vector by angle theta about the y-axis</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    theta : float</span>
+<span class="sd">        angle to rotate by.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy array</span>
+<span class="sd">        Rotation matrix (Ry).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span>
+                     <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))])</span></div>
+
+
+<div class="viewcode-block" id="gen_rot_z">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.gen_rot_z">[docs]</a>
+<span class="k">def</span> <span class="nf">gen_rot_z</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a 3*3 matrix that rotates a vector by angle theta about the z-axis</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    theta : float</span>
+<span class="sd">        angle to rotate by.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy array</span>
+<span class="sd">        Rotation matrix (Rz).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="mi">0</span><span class="p">),</span>
+                     <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="mi">0</span><span class="p">),</span>
+                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span></div>
+
+                     
+<div class="viewcode-block" id="gen_rot_x">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.gen_rot_x">[docs]</a>
+<span class="k">def</span> <span class="nf">gen_rot_x</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a 3*3 matrix that rotates a vector by angle theta about the x-axis</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    theta : float</span>
+<span class="sd">        angle to rotate by.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy array</span>
+<span class="sd">        Rotation matrix (Rx).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span>
+                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))])</span></div>
+
+
+
+<span class="c1">###########################################################################################################</span>
+<span class="c1">##########################################################################################################</span>
+
+<div class="viewcode-block" id="configure_ADCP">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.configure_ADCP">[docs]</a>
+<span class="k">def</span> <span class="nf">configure_ADCP</span><span class="p">(</span><span class="n">adcp</span><span class="p">,</span> <span class="n">pose</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure the ADCP parameters, perform processing, and apply masking.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adcp : ADCP object</span>
+<span class="sd">        An instance of the ADCP class.</span>
+<span class="sd">    pose : Pose object</span>
+<span class="sd">        Pose information of the ADCP.</span>
+<span class="sd">    adcp_offset : ndarray, optional</span>
+<span class="sd">        Offset of the ADCP from the ROV center of mass.</span>
+<span class="sd">    adcp_rotation : float, optional</span>
+<span class="sd">        Rotation of the ADCP in its housing.</span>
+<span class="sd">    adcp_dr : float, optional</span>
+<span class="sd">        Distance between transducer faces for the ADCP.</span>
+<span class="sd">    stn_thresh : int, optional</span>
+<span class="sd">        Threshold for Signal-to-Noise Ratio masking.</span>
+<span class="sd">    cmag_thresh : int, optional</span>
+<span class="sd">        Threshold for Correlation Magnitude masking.</span>
+<span class="sd">    abs_thresh : int, optional</span>
+<span class="sd">        Threshold for Absolute Backscatter masking.</span>
+<span class="sd">    reject_first_bins : list, optional</span>
+<span class="sd">        List of first n bins to reject (bin 1 - reject_first_bins).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The ADCP geometry is updated based on the provided pose and optional parameters.</span>
+<span class="sd">    - Absolute backscatter is calculated.</span>
+<span class="sd">    - Various masks (stn, cmag, abs_bs, bins, bottom track) are defined and applied.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    configure_ADCP(adcp_instance, pose_instance, adcp_offset=my_offset, adcp_rotation=my_rotation,</span>
+<span class="sd">                   adcp_dr=my_distance_range, stn_thresh=my_stn_threshold, cmag_thresh=my_cmag_threshold,</span>
+<span class="sd">                   abs_thresh=my_abs_threshold, reject_first_bins=my_reject_bins)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ips_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.36</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.45</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.31</span><span class="p">])</span>  <span class="c1"># Offset of the ips from the ROV center of mass</span>
+    <span class="n">adcp_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.23</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.38</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.19</span><span class="p">])</span>  <span class="c1"># Offset of the ADCP from the ROV center of mass</span>
+    <span class="n">adcp_offset</span> <span class="o">-=</span> <span class="n">ips_offset</span>
+    <span class="n">adcp_length</span> <span class="o">=</span> <span class="mf">0.3949</span>
+    <span class="n">adcp_offset</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">adcp_length</span>
+    <span class="n">adcp_offset</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">adcp_offset</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;adcp_offset&#39;</span><span class="p">,</span> <span class="n">adcp_offset</span><span class="p">)</span>
+    <span class="n">adcp_rotation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;adcp_rotation&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">adcp_dr</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;adcp_dr&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">stn_thresh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;stn_thresh&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">cmag_thresh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;cmag_thresh&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">abs_thresh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;abs_thresh&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">reject_first_bins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;reject_first_bins&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">set_mask_status</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">adcp</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">set_pose</span><span class="p">(</span><span class="n">pose</span><span class="p">,</span> <span class="n">update_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">adcp</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">calculate_beam_geometry</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="n">adcp_rotation</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">dr</span><span class="o">=</span><span class="n">adcp_dr</span><span class="p">)</span>
+
+    <span class="c1"># Processing</span>
+    <span class="n">adcp</span><span class="o">.</span><span class="n">processing</span><span class="o">.</span><span class="n">calculate_absolute_backscatter</span><span class="p">()</span>
+
+    <span class="c1"># Masking (common masking operations)</span>
+
+    <span class="k">if</span> <span class="n">stn_thresh</span><span class="p">:</span>
+        <span class="n">stn</span> <span class="o">=</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_array</span><span class="p">(</span><span class="n">field_name</span><span class="o">=</span><span class="s1">&#39;SIGNAL TO NOISE RATIO&#39;</span><span class="p">)</span>
+        <span class="n">mask1</span> <span class="o">=</span> <span class="p">(</span><span class="n">stn</span> <span class="o">&gt;</span> <span class="n">stn_thresh</span><span class="p">)</span>
+        <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;stn&#39;</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cmag_thresh</span><span class="p">:</span>
+        <span class="n">cmag</span> <span class="o">=</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_array</span><span class="p">(</span><span class="n">field_name</span><span class="o">=</span><span class="s1">&#39;CORRELATION MAGNITUDE&#39;</span><span class="p">)</span>
+        <span class="n">mask2</span> <span class="o">=</span> <span class="n">cmag</span> <span class="o">&gt;</span> <span class="n">cmag_thresh</span>
+        <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cmag&#39;</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">abs_thresh</span><span class="p">:</span>
+        <span class="n">abs_bs</span> <span class="o">=</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_array</span><span class="p">(</span><span class="n">field_name</span><span class="o">=</span><span class="s1">&#39;ABSOLUTE BACKSCATTER&#39;</span><span class="p">)</span>
+        <span class="n">mask3</span> <span class="o">=</span> <span class="n">abs_bs</span> <span class="o">&gt;</span> <span class="n">abs_thresh</span>
+        <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;abs_bs&#39;</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">reject_first_bins</span><span class="p">:</span>
+        <span class="n">mask4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">mask3</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">reject_first_bins</span><span class="p">):</span>
+            <span class="n">mask4</span><span class="p">[:,</span> <span class="p">:</span><span class="n">b</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask4</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bins&#39;</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Mask bottom track</span>
+    <span class="n">bt_range</span> <span class="o">=</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_bottom_track</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">bt_range</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+        <span class="n">bt_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">bt_range</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span> <span class="n">adcp</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">bt_range</span><span class="p">[</span><span class="n">bt_range</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32675</span>
+        <span class="n">bin_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">adcp</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_bin_midpoints</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">adcp</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">))</span>
+        <span class="n">bin_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">bin_centers</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">adcp</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_beams</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">bt_range</span> <span class="o">-</span> <span class="n">adcp</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">depth_cell_length</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">bin_centers</span>
+        <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bottom track&#39;</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+        
+        
+
+
+
+<div class="viewcode-block" id="configure_CTD">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.configure_CTD">[docs]</a>
+<span class="k">def</span> <span class="nf">configure_CTD</span><span class="p">(</span><span class="n">ctd</span><span class="p">,</span><span class="n">pose</span><span class="p">,</span><span class="n">min_turb</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">ssc_coeff</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    configure a ctd sensor </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ctd : TYPE</span>
+<span class="sd">        DESCRIPTION.</span>
+<span class="sd">    Pose : Pose object</span>
+<span class="sd">        pre-configured Pose object containing position and orientation data </span>
+<span class="sd">        for the sensor. </span>
+<span class="sd">    orient_in : TYPE</span>
+<span class="sd">        DESCRIPTION.</span>
+<span class="sd">    min_turbidity: float, optional</span>
+<span class="sd">        minimium allowed turbidity value in masking </span>
+<span class="sd">        </span>
+<span class="sd">    ssc_coeff: float, optional</span>
+<span class="sd">        coefficient for converting Turbidity (NTU) to ssuspended solids concentration (SSC). SSC = ssc_coeff*NTU</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#min_turb = kwargs.pop(&#39;min_turb&#39;,0) # minimim allowed turbidity </span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;ctd_offset&#39;</span><span class="p">,(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">ctd_rotation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;ctd_rotation&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    
+
+    <span class="c1">## configure geometry</span>
+    <span class="n">ips_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>	<span class="o">-</span><span class="mf">0.36</span><span class="p">,</span><span class="o">-</span><span class="mf">1.45</span><span class="p">,</span>	<span class="o">-</span><span class="mf">0.31</span><span class="p">])</span> <span class="c1"># offset of the ips from the ROV center of mass - note x and y coordinates interchanged, and z direction reversed to match the ADCP reference frame, </span>
+    <span class="n">ctd_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.80</span><span class="p">,</span><span class="mf">1.05</span><span class="p">,</span>	<span class="o">-</span><span class="mf">0.52</span><span class="p">])</span> <span class="c1">#np.array([0.23,-1.38,	-0.19]) # offset of the wetlabs ntu face from the ROV center of mass - note x and y coordinates interchanged, and z direction reversed to match the ADCP reference frame, </span>
+    <span class="n">ctd_offset</span> <span class="o">-=</span> <span class="n">ips_offset</span> 
+    <span class="n">ctd_length</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ctd_offset</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ctd_length</span> <span class="c1"># add the offset to the face of the transducers</span>
+    <span class="n">ctd_offset</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ctd_offset</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># flip z coordinate direction    </span>
+
+
+
+    <span class="n">ctd</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">set_pose</span><span class="p">(</span><span class="n">pose</span><span class="p">)</span>
+    <span class="n">ctd</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">set_sensor_relative_geometry</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">ctd_rotation</span><span class="p">,</span><span class="n">offset</span> <span class="o">=</span> <span class="n">ctd_offset</span><span class="p">)</span>
+    <span class="n">ctd</span><span class="o">.</span><span class="n">processing</span><span class="o">.</span><span class="n">calculate_density</span><span class="p">()</span>
+    <span class="n">ctd</span><span class="o">.</span><span class="n">processing</span><span class="o">.</span><span class="n">calculate_depth</span><span class="p">(</span><span class="n">environment</span> <span class="o">=</span> <span class="s1">&#39;SALTWATER&#39;</span><span class="p">)</span>
+    <span class="n">ctd</span><span class="o">.</span><span class="n">processing</span><span class="o">.</span><span class="n">calculate_SSC</span><span class="p">(</span><span class="n">A</span> <span class="o">=</span><span class="n">ssc_coeff</span><span class="p">)</span>
+    
+    <span class="n">t</span><span class="p">,</span><span class="n">turb</span> <span class="o">=</span> <span class="n">ctd</span><span class="o">.</span><span class="n">get_timeseries_data</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">turb</span> <span class="o">&gt;=</span> <span class="n">min_turb</span>
+    <span class="n">ctd</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;turbidity&#39;</span><span class="p">,</span><span class="n">set_active</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="select_adcp_data">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.select_adcp_data">[docs]</a>
+<span class="k">def</span> <span class="nf">select_adcp_data</span><span class="p">(</span><span class="n">adcp</span><span class="p">,</span> <span class="n">t_select</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">d_select</span><span class="o">=</span><span class="s1">&#39;HAB&#39;</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s1">&#39;ECHO INTENSITY&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects data from an ADCP transect based on time or ensemble index and depth (HAB or bin).</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - adcp (ADCP): ADCP DataSet object </span>
+<span class="sd">    - t_select (str): Selection method for time (&#39;time&#39; or &#39;ensemble&#39;).</span>
+<span class="sd">    - d_select (str): Selection method for depth (&#39;HAB&#39; or &#39;bin&#39;).</span>
+<span class="sd">    - field_name (str): Name of the field to select (e.g., &#39;ECHO INTENSITY&#39;).</span>
+<span class="sd">    - **kwargs: Additional keyword arguments based on the selection criteria.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - t (ndarray): Array of selected time or ensemble values.</span>
+<span class="sd">    - X (ndarray): Selected data array based on the specified criteria.</span>
+<span class="sd">    - Z (ndarray): z-values of selected ADCP ensemble array data </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">t_select</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;start_time&#39;</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">()))</span>
+        <span class="n">et</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;end_time&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">()))</span>
+    <span class="k">elif</span> <span class="n">t_select</span> <span class="o">==</span> <span class="s1">&#39;ensemble&#39;</span><span class="p">:</span>
+        <span class="n">se</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;start_ensemble&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">ee</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;end_ensemble&#39;</span><span class="p">,</span> <span class="n">adcp</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">d_select</span> <span class="o">==</span> <span class="s1">&#39;HAB&#39;</span><span class="p">:</span>
+        <span class="n">sh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;start_HAB&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">eh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;end_HAB&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">adcp</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_absolute_beam_midpoint_positions_HAB</span><span class="p">()[</span><span class="mi">2</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">d_select</span> <span class="o">==</span> <span class="s1">&#39;bin&#39;</span><span class="p">:</span>
+        <span class="n">sb</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;start_bin&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">eb</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;end_bin&#39;</span><span class="p">,</span> <span class="n">adcp</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">number_of_cells</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;mask&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+
+
+    <span class="k">if</span> <span class="n">d_select</span> <span class="o">==</span> <span class="s1">&#39;HAB&#39;</span><span class="p">:</span>
+        <span class="c1"># define a mask to nan out out of range data</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">adcp</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_absolute_beam_midpoint_positions_HAB</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">hab_mask</span> <span class="o">=</span> <span class="p">((</span><span class="n">Z</span> <span class="o">&gt;=</span> <span class="n">sh</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Z</span> <span class="o">&lt;=</span> <span class="n">eh</span><span class="p">))</span>
+        <span class="n">Z</span><span class="p">[</span><span class="o">~</span><span class="n">hab_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">set_mask_status</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># deactivate all existing masks if mask is set to false, otherwise keep existing masks</span>
+        <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">define_mask</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">hab_mask</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;HAB&#39;</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_array</span><span class="p">(</span><span class="n">field_name</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+        <span class="c1"># delete the HAB mask</span>
+        <span class="n">adcp</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">delete_mask</span><span class="p">(</span><span class="s1">&#39;HAB&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">t_select</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
+        <span class="c1"># find starting ensemble and ending ensemble based on time</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">()</span>
+
+        <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">st</span> <span class="o">-</span> <span class="n">t</span><span class="p">))</span>  <span class="c1"># starting ensemble index</span>
+        <span class="n">ee</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">et</span> <span class="o">-</span> <span class="n">t</span><span class="p">))</span>  <span class="c1"># ending ensemble index</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,:,</span><span class="n">se</span><span class="p">:</span><span class="n">ee</span><span class="p">]</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="p">[:,:,</span><span class="n">se</span><span class="p">:</span><span class="n">ee</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">se</span><span class="p">:</span><span class="n">ee</span><span class="p">]</span>
+    
+        
+    
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span><span class="n">Z</span></div>
+
+
+<div class="viewcode-block" id="select_ctd_data">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.select_ctd_data">[docs]</a>
+<span class="k">def</span> <span class="nf">select_ctd_data</span><span class="p">(</span><span class="n">ctd</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s1">&#39;Turbidity (NTU)&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects data from a CTD profile based on time.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - ctd (CTD): CTD DataSet object containing the data.</span>
+<span class="sd">    - field_name (str): Name of the field to select (e.g., &#39;Turbidity (NTU)&#39;).</span>
+<span class="sd">    </span>
+<span class="sd">    - **kwargs: Additional keyword arguments based on the selection criteria.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - t (ndarray): Array of selected time values.</span>
+<span class="sd">    - turb (ndarray): Selected turbidity data array based on the specified criteria.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">turb</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">ctd</span><span class="o">.</span><span class="n">get_timeseries_data</span><span class="p">(</span><span class="n">field_name</span><span class="o">=</span><span class="n">field_name</span><span class="p">)</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;start_time&#39;</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+    <span class="n">et</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;end_time&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+    <span class="n">sidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">st</span> <span class="o">-</span> <span class="n">t</span><span class="p">))</span>  <span class="c1"># starting ensemble index</span>
+    <span class="n">eidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">et</span> <span class="o">-</span> <span class="n">t</span><span class="p">))</span>  <span class="c1"># ending ensemble index</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">sidx</span><span class="p">:</span><span class="n">eidx</span><span class="p">]</span>
+    <span class="n">turb</span> <span class="o">=</span> <span class="n">turb</span><span class="p">[</span><span class="n">sidx</span><span class="p">:</span><span class="n">eidx</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">turb</span></div>
+
+
+
+
+<div class="viewcode-block" id="calculate_time_overlap">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.calculate_time_overlap">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_time_overlap</span><span class="p">(</span><span class="n">start_time1</span><span class="p">,</span> <span class="n">end_time1</span><span class="p">,</span> <span class="n">start_time2</span><span class="p">,</span> <span class="n">end_time2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the overlap duration between two time intervals.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - start_time1: Start time of the first interval. Accepts pandas, numpy, or datetime datetimes.</span>
+<span class="sd">    - end_time1: End time of the first interval. Accepts pandas, numpy, or datetime datetimes.</span>
+<span class="sd">    - start_time2: Start time of the second interval. Accepts pandas, numpy, or datetime datetimes.</span>
+<span class="sd">    - end_time2: End time of the second interval. Accepts pandas, numpy, or datetime datetimes.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - overlap_duration (timedelta): Duration of the overlap between the two intervals.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    &gt;&gt;&gt; start_time1 = &quot;2023-01-01 08:00:00&quot;</span>
+<span class="sd">    &gt;&gt;&gt; end_time1 = &quot;2023-01-01 12:00:00&quot;</span>
+<span class="sd">    &gt;&gt;&gt; start_time2 = &quot;2023-01-01 10:00:00&quot;</span>
+<span class="sd">    &gt;&gt;&gt; end_time2 = &quot;2023-01-01 14:00:00&quot;</span>
+<span class="sd">    &gt;&gt;&gt; overlap_duration = calculate_time_overlap(start_time1, end_time1, start_time2, end_time2)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;Overlap duration: {overlap_duration}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert inputs to datetime objects if they are not already</span>
+    <span class="n">start1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_time1</span><span class="p">)</span>
+    <span class="n">end1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_time1</span><span class="p">)</span>
+    <span class="n">start2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_time2</span><span class="p">)</span>
+    <span class="n">end2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_time2</span><span class="p">)</span>
+
+    <span class="n">overlap_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">start1</span><span class="p">,</span> <span class="n">start2</span><span class="p">)</span>
+    <span class="n">overlap_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">end1</span><span class="p">,</span> <span class="n">end2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">overlap_start</span> <span class="o">&lt;</span> <span class="n">overlap_end</span><span class="p">:</span>
+        <span class="n">overlap_duration</span> <span class="o">=</span> <span class="n">overlap_end</span> <span class="o">-</span> <span class="n">overlap_start</span>
+        <span class="k">return</span> <span class="n">overlap_duration</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s1">&#39;0s&#39;</span><span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="find_ADCP_CTD_pairs">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.find_ADCP_CTD_pairs">[docs]</a>
+<span class="k">def</span> <span class="nf">find_ADCP_CTD_pairs</span><span class="p">(</span><span class="n">dm</span><span class="p">,</span> <span class="n">min_overlap</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find matched ADCP and CTD pairs based on overlapping date ranges.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - dm: DataManager object containing datasets named &#39;ADCP&#39; and &#39;CTD&#39; with ADCP and CTD DataSet objects, respectively.</span>
+<span class="sd">    - min_overlap: Minimum number of seconds two files must overlap to be considered a match.</span>
+<span class="sd">    - plot: bool - if True, plot the matched pairs.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - list: List of tuples containing matched ADCP and CTD pairs (adcp, ctd).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">ctd</span> <span class="ow">in</span> <span class="n">dm</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;CTD&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_active_data</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">adcp</span> <span class="ow">in</span> <span class="n">dm</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;ADCP&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_active_data</span><span class="p">():</span>
+            
+            <span class="c1"># Check for valid file lengths and dates</span>
+            <span class="n">fail_conds</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Boolean fail indicators - for rejecting a CTD or ADCP dataset</span>
+            <span class="n">fail_conds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ctd</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;DateTime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;September 01 2022&#39;</span><span class="p">))</span>
+            <span class="n">fail_conds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ctd</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;DateTime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">ctd</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;DateTime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s1">&#39;5 min&#39;</span><span class="p">))</span>
+            <span class="n">fail_conds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s1">&#39;5 min&#39;</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">fail_conds</span><span class="p">):</span> 
+                
+                <span class="n">overlap</span> <span class="o">=</span> <span class="n">calculate_time_overlap</span><span class="p">(</span><span class="n">ctd</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;DateTime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">ctd</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;DateTime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">adcp</span><span class="o">.</span><span class="n">get_ensemble_datetimes</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">overlap</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">min_overlap</span><span class="p">:</span>
+                    <span class="n">pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">adcp</span><span class="p">,</span> <span class="n">ctd</span><span class="p">))</span>
+                    <span class="c1"># You can perform additional actions here for matched pairs, such as plotting</span>
+                    
+                    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+                        <span class="n">adcp</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">four_beam_flood_plot</span><span class="p">(</span><span class="n">plot_by</span><span class="o">=</span><span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="n">ctd</span><span class="o">=</span><span class="n">ctd</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pairs</span></div>
+
+
+
+<div class="viewcode-block" id="ABS_to_NTU">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.ABS_to_NTU">[docs]</a>
+<span class="k">def</span> <span class="nf">ABS_to_NTU</span><span class="p">(</span><span class="n">ABS</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert ABS to NTU using the equation 10log(SSC) = A*Backscatter + B.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ABS : numpy.ndarray</span>
+<span class="sd">        Absolute backscatter values</span>
+<span class="sd">    A : float</span>
+<span class="sd">        Coefficient A in the equation.</span>
+<span class="sd">    B : float</span>
+<span class="sd">        Coefficient B in the equation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Nephelometric Turbidity Units (NTU) calculated from ABS.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ABS</span><span class="p">[</span><span class="n">ABS</span> <span class="o">&gt;=</span> <span class="mi">32768</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">ABS</span> <span class="o">+</span> <span class="n">B</span><span class="p">)</span> </div>
+
+
+<div class="viewcode-block" id="NTU_to_SSC">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.NTU_to_SSC">[docs]</a>
+<span class="k">def</span> <span class="nf">NTU_to_SSC</span><span class="p">(</span><span class="n">NTU</span><span class="p">,</span><span class="n">A</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert NTU to SSC using equation SCC = A*NTU</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    NTU : numpy.ndarray</span>
+<span class="sd">        Absorption values.</span>
+<span class="sd">    A : float</span>
+<span class="sd">        Coefficient A in the equation.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Suspended solids concentration (SSC) calcualted from NTU</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">A</span><span class="o">*</span><span class="n">NTU</span>  </div>
+
+
+<div class="viewcode-block" id="random_sample">
+<a class="viewcode-back" href="../../../pyplume.ptools.html#pyplume.ptools.ptools.random_sample">[docs]</a>
+<span class="k">def</span> <span class="nf">random_sample</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Randomly sample n elements from the given array.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - array: Input array.</span>
+<span class="sd">    - n: Number of elements to sample.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - np.ndarray: Array containing n randomly sampled elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sample size cannot be greater than the array size.&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, anba.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
