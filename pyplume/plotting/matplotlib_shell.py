@@ -93,16 +93,16 @@ mpl.rcParams['xtick.major.top'] = True
 # mpl.rcParams['axes.labelpad']: 250
 mpl.rcParams['axes.labelweight'] = 'normal'
 
-mpl.rcParams['legend.fontsize'] = 9
+mpl.rcParams['legend.fontsize'] = 8
 mpl.rcParams['legend.framealpha']= 0.5
 
-mpl.rcParams['axes.titlesize'] = 14
+mpl.rcParams['axes.titlesize'] = 12
 mpl.rcParams['axes.titleweight'] ='normal'
 
 mpl.rcParams['font.family'] ='TImes New Roman'
 #rcParams['font.family'] = 'Georgia'
 
-mpl.rcParams['axes.labelsize'] = 13
+mpl.rcParams['axes.labelsize'] = 10
 mpl.rcParams['axes.linewidth'] = 1.25
 
 mpl.rcParams['xtick.major.size'] = 5.0
